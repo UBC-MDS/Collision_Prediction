@@ -19,7 +19,7 @@ opt = docopt(__doc__)
 def main(url, filepath):
     data = pd.read_csv(url, header=None)
     try:
-        data.to_csv(out_file, index=False)
+        data.to_csv(filepath, index=False)
     except:
         os.makedirs(os.path.dirname(filepath))
         data.to_csv(filepath, index=False)
