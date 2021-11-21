@@ -7,7 +7,7 @@ Usage: download_script.py --url=<url> --filepath=<filepath>
  
 Options:
 --url=<url>             URL from where to download the data (must be in standard csv format)
---out_file=<filepath>   Path (including filename) of where to store the csv file locally
+--filepath=<filepath>   Path (including filename) of where to store the csv file locally
 """
 
 import os
