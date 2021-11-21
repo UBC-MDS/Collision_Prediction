@@ -2,11 +2,11 @@
 
 ## Project Proposal
 
-The data set that will be used in this project came from the National Collision Database published by Transport Canada and can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a). The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. This data set contains information licensed under the Open Government Licence – Canada.
+The data set that will be used in this project came from the National Collision Database published by Transport Canada and can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a). The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We will start off using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
 
-In this project we want to answer the research question, "Will a motor vehicle collision in Canada result in fatalities?"
+In this project we want to answer the predictive research question, "Will a motor vehicle collision in Canada result in fatalities?"
 
-Related sub-questions of interest are, "What features best predict a severe motor vehicle collision?" Where severe is defined as a collision involving fatalities. Specifically, we want to know how important weather, road type, time of year, age of driver, and vehicle type are in predicting the severity of a motor vehicle collision.
+A related sub-question of interest is, "What features best predict a severe motor vehicle collision?" where severe is defined as a collision involving fatalities. Specifically, we want to know how important weather, road type, time of year, age of driver, and vehicle type are in predicting the severity of a motor vehicle collision.
 
 After preprocessing the data, we aim to try different classification models such as decision trees, kNN, RBF SVC, Naive Bayes, and logistic regressors. After tuning hyperparameters and determining which model is likely to perform the best on the test data, we will move forward with that model as the classifier we will use to answer the research question.
 
