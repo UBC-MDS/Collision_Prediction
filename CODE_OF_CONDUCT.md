@@ -1,4 +1,5 @@
 # Contributor Code of Conduct
+
 ## Our Pledge
 
 We as contributors and maintainers of this project pledge to foster a diverse and inclusive community. Participation in this project shall be a harassment-free experience for all individuals, regardless of their race, colour, ethnicity, gender, sexual orientation, religion, socioeconomic status, disabilities, education level, age, mental health, physical appearance, and level of experience.
