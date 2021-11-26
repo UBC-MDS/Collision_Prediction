@@ -1,0 +1,37 @@
+---
+title: "Predicting fatalities resulting from motor vehicle collisions"
+author: "Abdul Moid Mohammed"
+date: "25/11/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+```
+
+```{r load model results}
+# model <- read_csv("../results/final_model.rds")
+# model_quality <- read_csv("../results/final_model_quality.rds")
+```
+
+# Introduction
+Desribe the question
+
+# Analysis
+## Data
+Describe the data
+
+## Model
+Describe the analysis
+
+# Results
+Describe the results
+
+# Conclusion
+Describe the conclusion
+
+Add references
+# References
