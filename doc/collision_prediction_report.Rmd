@@ -27,7 +27,7 @@ Stemming from the daily news we come across on fatalities due to motor vehicle c
 
 # Analysis
 ## Data
-Describe the data
+The data set that will be used in this project has been sourced from the National Collision Database, published by Transport Canada, which can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a). The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We will start off our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
 
 ## Model
 Describe the analysis
