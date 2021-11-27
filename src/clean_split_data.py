@@ -24,6 +24,9 @@ def main():
         .sort_index()
         .drop(columns=["C_YEAR", "C_CASE", "C_SEV"])
     )
+    
+    # Make all columns contain strings
+    ncdb = ncdb.astype("string")
 
     # Creating 'FATALITY' column to convert multi-class outcomes to binary-class
     ncdb.loc[ncdb["P_ISEV"] == "3", "FATALITY"] = True
