@@ -1,13 +1,47 @@
 # Motor Vehicle Collision Fatality Predictor
 
-## Project Proposal
+* Authors: Abdul Moid Mohammed, Daniel King, Doris Tao, Linh Giang Nguyen
 
-In this project we want to answer the predictive research question, "Will a motor vehicle collision result in fatalities?" A related sub-question of interest is, "What features are most important in predicting a severe motor vehicle collision?" where severe is defined as a collision involving fatalities. Specifically, we want to know how important weather, road type, time of year, age of driver, and vehicle type are in predicting the severity of a motor vehicle collision.
+## About
 
-The data set that will be used in this project came from the National Collision Database, published by Transport Canada, which can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a). The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We will start off our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
+In this project we build a classification model to attempt to answer the predictive research question, "Will a motor vehicle collision result in fatalities?" EXPLAIN RESULTS
 
-With the research question in mind, we begin our analysis by first separating the data into a training set and test set (split 90:10). On the training set we will perform EDA to assess the presence or absence of class imbalance, determine what sort of preprocessing is required, and to discern which features may be most important for prediction. The class imbalance will be assessed by presenting the class counts as a table. To determine the necessary preprocessing transformations, we will include a `pandas.DataFrame.info` table which presents the data types and amount of missing values. Additionally, we will include a `pandas.DataFrame.describe` table to obtain informative descriptive statistics such as the central tendency, spread, and shape of the training set. To discern important features for prediction we will plot histograms presenting the distribution of each numeric feature in the dataset facetted on the target classes in our EDA.
+The data set that was used in this project came from the National Collision Database, published by Transport Canada, which can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a). The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We ran our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
 
-Once we identify the important features through EDA, we will proceed with preprocessing the data by applying the relevant transformations. We will then subject the preprocessed data to different classification models such as decision trees, k-NN, RBF SVC, Naive Bayes, and Logistic Regressors. Then cross-validation and hyperparameter optimization will be performed to determine the model with the best hyperparameters/scores. We will move forward with the best classification model to answer our research question.
+## Report
 
-The best model will then be fitted on the entire training set and evaluated with the test set. The results of our analyses will be presented as a table of classification scoring metrics obtained from the test set, to show how well our model performs and how well it generalizes to new data.
+The final report can be found [here]("")
+
+## Usage
+
+To replicate this analysis, clone this GitHub repository, install the listed [dependencies](#Dependencies), and run the following commands from the terminal/command line from within the project's root directory:
+
+```
+# download data
+
+#run eda report
+
+#clean and split data
+
+# tune model
+
+# select features
+
+# test model
+
+# render final report
+
+```
+
+## Dependencies
+
+* Python 3.10.0 and Python packages:
+  * altair=4.1.0=py_1
+  * altair_saver
+  * pandas==1.3.4
+  * scikit-learn==1.0.1
+  * docopt-ng==0.7.2
+
+## License
+
+The Motor Vehicle Collision Fatality Predictor materials here are licensed under the MIT License. If you use or re-mix this project please provide attribution and a link to this GitHub repository.
