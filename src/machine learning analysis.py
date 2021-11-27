@@ -6,7 +6,7 @@ Usage: download_script.py --url=<url> --filepath=<filepath>
  
 Options:
 --input=<input>       The path or filename pointing to the data
---prefix=<prefix>   The prefix where to write the output figure(s)/table(s) to and what to call it 
+--prefix=<prefix>     The prefix where to write the output figure(s)/table(s) to and what to call it 
 """
 
 import os
@@ -43,6 +43,7 @@ from sklearn.preprocessing import (
 from sklearn.svm import SVC, SVR
 from scipy.stats import loguniform
 from sklearn.metrics import confusion_matrix
+import pickle
 
 opt = docopt(__doc__)
 
@@ -86,7 +87,6 @@ def main():
         LogisticRegression(max_iter=2000)
     )
     
-    
     # Scoring include f1, recall, precision. 
     results = {}
     scoring = [
@@ -103,6 +103,7 @@ def main():
     pipe.fit(X_train, y_train)
     preds = pipe.predict(X_train)
     conf_mat = confusion_matrix(y_train, preds)
+    conf_mat = pd.DataFrame(conf_mat)
     
     # Hyperparameter tuning using RandomSearchCV 
     # Optimize using f1 as we have class imbalance.
@@ -113,7 +114,7 @@ def main():
     random_search = RandomizedSearchCV(
         pipe,
         param_grid,
-        n_iter=10,
+        n_iter=50,
         verbose=1,
         n_jobs=-1,
         random_state=123,
@@ -123,6 +124,14 @@ def main():
     random_search.fit(X_train, y_train)
     print("Best hyperparameter values: ", random_search.best_params_)
     print("Best score: %0.3f" % (random_search.best_score_))
+    
+    # Create output tables/images
+    prefix = opt["--prefix"]
+    save_df(result_df, "score_results")
+    save_df(conf_mat, "confusion matrix")
+    
+    # Storing optimized model
+    pickle.dump(model, open(f"{input}final_model.rds", "wb"))
     
 # A powerful function copied from DSCI571 note    
 def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
@@ -154,7 +163,8 @@ def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
 
     return pd.Series(data=out_col, index=mean_scores.index)
     
-    
+def save_df(df, name):
+    df.to_pickle(f"{prefix}{name}.rds")    
     
 if __name__ == "__main__":
     main() 
