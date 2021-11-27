@@ -1,8 +1,12 @@
 ---
 title: "Predicting fatalities resulting from motor vehicle collisions"
-author: "Abdul Moid Mohammed"
+author: "MDS-2021-22 block3 group21"
 date: "25/11/2021"
-output: html_document
+output: 
+  html_document:
+    toc: true
+  github_document:
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -18,7 +22,8 @@ library(tidyverse)
 ```
 
 # Introduction
-Desribe the question
+
+Stemming from the daily news we come across on fatalities due to motor vehicle collisions, we thought about designing a model that would help predict whether a motor vehicle collision would result in a fatality or not. This lead to our predictive research question: "Will a motor vehicle collision result in fatalities?". But would it suffice to only "predict" a fatality? What if we also determine some of the major contributors that could lead to a fatal collision? Through this predictive analysis we first aim to predict whether a collision would result in a fatality or not followed by determining what features are most important in making these predictions. Specifically, we want to know how important weather, road type, time of year, age of driver, and vehicle type are in predicting the severity of a motor vehicle collision.
 
 # Analysis
 ## Data
