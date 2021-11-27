@@ -1,13 +1,15 @@
 # author: Linh Giang Nguyen
 # date: 2021-11-28
 
-"""Creates eda plots for the pre-processed training data from the National Collision Database (NCDB) 2017 data (from https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a/resource/01426d41-529c-443f-a901-6bc2f94f3d73).
+"""Creates eda plots for the pre-processed training data from the 
+National Collision Database (NCDB) 2017 data (from https://open.canada.ca/data/en/
+dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a/resource/01426d41-529c-443f-a901-6bc2f94f3d73).
 Saves the plots as png files.
 
-Usage: src/eda_ncdb.py --train=<train> --out_dir=<out_dir>
+Usage: src/eda.py --train=<train> --out_dir=<out_dir>
 
 Options:
---train=<train>     Path (including filename) to training data (which needs to be saved as a feather file)
+--train=<train>     Path (including filename) to training data
 --out_dir=<out_dir> Path to directory where the plots should be saved
 """
 
@@ -22,15 +24,19 @@ opt = docopt(__doc__)
 
 def create_and_save_chart(df, col, title, save_path):
     """
-    Returns distribution plots of the feature of interest from the dataframe `nc_train_nan`.
+    Returns distribution plots of the feature of interest from the given dataframe.
     The plot is faceted by class (no-fatality: blue, fatality: orange).
 
     Parameters
     ----------
-    col : str
+    df       : str
+        the given dataframe
+    col      : str
         the feature of interest
-    title : str
+    title    : str
         the label for the feature in the returned plot
+    save_path :
+        the path to directory where the plots should be saved
 
     Returns
     -------
