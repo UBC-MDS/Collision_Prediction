@@ -45,5 +45,3 @@ To replicate this analysis, clone this GitHub repository, install the listed [de
 ## License
 
 The Motor Vehicle Collision Fatality Predictor materials here are licensed under the MIT License. If you use or re-mix this project please provide attribution and a link to this GitHub repository.
-
-## References
