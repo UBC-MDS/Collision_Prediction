@@ -6,7 +6,7 @@ Usage: download_script.py --url=<url> --filepath=<filepath>
  
 Options:
 --input=<input>       The path or filename pointing to the data
---prefix=<prefix>     The prefix where to write the output figure(s)/table(s) to and what to call it 
+--output=<output>     The prefix where to write the output figure(s)/table(s) to and what to call it 
 """
 
 import os
@@ -21,8 +21,7 @@ from sklearn.metrics import make_scorer
 from sklearn.model_selection import (
     RandomizedSearchCV,
     cross_val_score,
-    cross_validate,
-    train_test_split,
+    cross_validate
 )
 from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.preprocessing import OneHotEncoder
@@ -72,9 +71,10 @@ def main():
         LogisticRegression(max_iter=2000)
     )
     
-    # Scoring include f1, recall, precision. 
+    # Scoring include accuracy, f1, recall, precision. 
     results = {}
     scoring = [
+        "accuracy",
         "f1", 
         "recall", 
         "precision", 
@@ -111,7 +111,7 @@ def main():
     print("Best score: %0.3f" % (random_search.best_score_))
     
     # Create output tables/images
-    prefix = opt["--prefix"]
+    output = opt["--output"]
     save_df(result_df, "score_results")
     save_df(conf_mat, "confusion matrix")
     
@@ -149,7 +149,7 @@ def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
     return pd.Series(data=out_col, index=mean_scores.index)
     
 def save_df(df, name):
-    df.to_pickle(f"{prefix}{name}.rds")    
+    df.to_pickle(f"{output}{name}.rds")    
     
 if __name__ == "__main__":
     main() 
