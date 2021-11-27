@@ -121,7 +121,19 @@ def main():
     results["Logistic Regression"] = mean_std_cross_val_scores(pipe, X_train, y_train, scoring=scoring)
     result_df = pd.DataFrame(results)
     
+    # Optimize using f1 as we have class imbalance.
+    random_search = RandomizedSearchCV(
+        pipe,
+        param_grid,
+        n_iter=50,
+        verbose=1,
+        n_jobs=-1,
+        random_state=123,
+        return_train_score=True,
+        scoring="f1"
+    )
 
+    random_search.fit(X_train, y_train)
     
 
     # Feature selection using pipeline including OneHotEncoder, RFECV, LogisticRegression.
