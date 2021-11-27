@@ -18,17 +18,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer, make_column_transformer
-from sklearn.dummy import DummyClassifier, DummyRegressor
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_selection import RFE, RFECV
-from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression, Ridge, RidgeCV
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import make_scorer
 from sklearn.model_selection import (
-    GridSearchCV,
     RandomizedSearchCV,
-    ShuffleSplit,
     cross_val_score,
     cross_validate,
     train_test_split,
@@ -36,9 +30,7 @@ from sklearn.model_selection import (
 from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.preprocessing import (
     OneHotEncoder,
-    OrdinalEncoder,
     PolynomialFeatures,
-    StandardScaler,
 )
 from sklearn.svm import SVC, SVR
 from scipy.stats import loguniform
