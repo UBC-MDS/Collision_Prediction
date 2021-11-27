@@ -1,5 +1,5 @@
 
-# author: MDS-2021-22 block3 group21
+# author: Siqi Tao
 # date: 2021-11-19
 
 """Downloads data as a csv file from online to a local filepath via a URL.
