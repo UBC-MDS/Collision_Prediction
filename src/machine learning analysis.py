@@ -5,15 +5,13 @@
 Usage: download_script.py --url=<url> --filepath=<filepath> 
  
 Options:
---data=<data>       The path or filename pointing to the data
+--input=<input>       The path or filename pointing to the data
 --prefix=<prefix>   The prefix where to write the output figure(s)/table(s) to and what to call it 
 """
 
 import os
 import pandas as pd
 from docopt import docopt
-
-import os
 import string
 
 import matplotlib.pyplot as plt
@@ -44,8 +42,89 @@ from sklearn.preprocessing import (
 )
 from sklearn.svm import SVC, SVR
 from scipy.stats import loguniform
+from sklearn.metrics import confusion_matrix
 
-# Function copied from DSCI571 note
+opt = docopt(__doc__)
+
+def main(): 
+    
+    # Get data
+    input = opt["--input"]
+    train_df = pd.read_csv(f"{input}train.csv", low_memory=False)
+    test_df = pd.read_csv(f"{input}test.csv", low_memory=False)
+    
+    X_train = train_df.drop(columns=["FATALITY"])
+    X_test = test_df.drop(columns=["FATALITY"])
+    
+    y_train = train_df["FATALITY"]
+    y_test = test_df["FATALITY"]
+    
+    # Convert columns into string data type
+    cols = X_train.columns.tolist()
+    for i in range(len(cols)):
+        X_train[cols[i]] = X_train[cols[i]].astype(str)
+        X_test[cols[i]] = X_test[cols[i]].astype(str)
+    
+    #Transform columns (all categorical)
+    categorical_feats = cols
+    preprocessor = make_column_transformer(
+        (OneHotEncoder(handle_unknown="ignore", sparse=False), categorical_feats),
+    )
+    
+    preprocessor.fit(X_train)
+    
+    # Get column names
+    columns = list(
+        preprocessor.named_transformers_["onehotencoder"].get_feature_names_out(
+            categorical_features
+        )
+    )
+    
+    # Pipeline including OneHotEncoder and LogisticRegression
+    pipe = make_pipeline(
+        OneHotEncoder(handle_unknown="ignore", sparse=False), 
+        LogisticRegression(max_iter=2000)
+    )
+    
+    
+    # Scoring include f1, recall, precision. 
+    results = {}
+    scoring = [
+        "f1", 
+        "recall", 
+        "precision", 
+        "roc_auc", 
+        "average_precision"
+    ]
+    results["Logistic Regression"] = mean_std_cross_val_scores(pipe, X_train, y_train, scoring=scoring)
+    result_df = pd.DataFrame(results)
+    
+    # Plot confusion matrix
+    pipe.fit(X_train, y_train)
+    preds = pipe.predict(X_train)
+    conf_mat = confusion_matrix(y_train, preds)
+    
+    # Hyperparameter tuning using RandomSearchCV 
+    # Optimize using f1 as we have class imbalance.
+    param_grid = {
+        "logisticregression__C": loguniform(1e-3, 1e3),
+        "logisticregression__class_weight": [None, "balanced"],
+    }
+    random_search = RandomizedSearchCV(
+        pipe,
+        param_grid,
+        n_iter=10,
+        verbose=1,
+        n_jobs=-1,
+        random_state=123,
+        return_train_score=True,
+        scoring="f1"
+    )
+    random_search.fit(X_train, y_train)
+    print("Best hyperparameter values: ", random_search.best_params_)
+    print("Best score: %0.3f" % (random_search.best_score_))
+    
+# A powerful function copied from DSCI571 note    
 def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
     """
     Returns mean and std of cross validation
@@ -74,69 +153,8 @@ def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
         out_col.append((f"%0.3f (+/- %0.3f)" % (mean_scores[i], std_scores[i])))
 
     return pd.Series(data=out_col, index=mean_scores.index)
-
-opt = docopt(__doc__)
-
-def main(): 
-    df = opt["--data"]
-    X_train = train_df[["C_WTHR", 'C_RCFG', 'C_MNTH', 'V_TYPE', 'P_AGE']]
-    X_test = df.drop(columns=["P_ISEV"])
     
-    y_train = train_df["P_ISEV"]
-    y_test = df["P_ISEV"]
     
-    categorical_feats = ["C_WTHR", 'C_RCFG', 'C_MNTH', 'V_TYPE', 'P_AGE']
-    preprocessor = make_column_transformer(
-        (OneHotEncoder(handle_unknown="ignore", sparse=False), categorical_feats),
-    )
-    
-    preprocessor.fit(X_train)
-    
-    columns = list(
-        preprocessor.named_transformers_["onehotencoder"].get_feature_names_out(
-            categorical_features
-        )
-    )
-    
-    # Pipeline including OneHotEncoder and LogisticRegression
-    pipe = make_pipeline(
-        OneHotEncoder(handle_unknown="ignore", sparse=False), 
-        LogisticRegression(max_iter=2000)
-    )
-    
-    # Hyperparameter tuning using RandomSearchCV 
-    param_grid = {
-        "logisticregression__C": loguniform(1e-3, 1e3),
-    }
-    
-    # Scoring include f1, recall, precision. 
-    results = {}
-    scoring = [
-        "f1", 
-        "recall", 
-        "precision", 
-        "roc_auc", 
-        "average_precision"
-    ]
-    results["Logistic Regression"] = mean_std_cross_val_scores(pipe, X_train, y_train, scoring=scoring)
-    result_df = pd.DataFrame(results)
-    
-    # Optimize using f1 as we have class imbalance.
-    random_search = RandomizedSearchCV(
-        pipe,
-        param_grid,
-        n_iter=50,
-        verbose=1,
-        n_jobs=-1,
-        random_state=123,
-        return_train_score=True,
-        scoring="f1"
-    )
-
-    random_search.fit(X_train, y_train)
-    
-
-    # Feature selection using pipeline including OneHotEncoder, RFECV, LogisticRegression.
     
 if __name__ == "__main__":
     main() 
