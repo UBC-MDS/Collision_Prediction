@@ -12,13 +12,10 @@ Options:
 import os
 import pandas as pd
 from docopt import docopt
-import string
 
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer, make_column_transformer
-from sklearn.feature_selection import RFE, RFECV
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import make_scorer
 from sklearn.model_selection import (
@@ -28,11 +25,7 @@ from sklearn.model_selection import (
     train_test_split,
 )
 from sklearn.pipeline import Pipeline, make_pipeline
-from sklearn.preprocessing import (
-    OneHotEncoder,
-    PolynomialFeatures,
-)
-from sklearn.svm import SVC, SVR
+from sklearn.preprocessing import OneHotEncoder
 from scipy.stats import loguniform
 from sklearn.metrics import confusion_matrix
 import pickle
@@ -125,7 +118,7 @@ def main():
     # Storing optimized model
     pickle.dump(model, open(f"{input}final_model.rds", "wb"))
     
-# A powerful function copied from DSCI571 note    
+# Function obtained from DSCI-571 lecture notes
 def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
     """
     Returns mean and std of cross validation
