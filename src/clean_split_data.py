@@ -3,7 +3,7 @@
 """
 Cleans NCDB 2017 data and creates training and test data set csv files.
 
-Usage: clean_data.py --input=<input filepath> --output=<output directory>
+Usage: clean_split_data.py --input=<input filepath> --output=<output directory>
 
 Options:
 --input=<input filepath>    Filepath of data in csv format
