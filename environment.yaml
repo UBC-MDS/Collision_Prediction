@@ -11,6 +11,4 @@ dependencies:
   - python=3.10.0
   - scikit-learn==1.0.1
   - pip:
-    - altair-data-server==0.4.1
-    - altair-viewer==0.4.0
     - docopt-ng==0.7.2
