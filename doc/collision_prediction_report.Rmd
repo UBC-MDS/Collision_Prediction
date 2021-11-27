@@ -30,7 +30,7 @@ Stemming from the daily news we come across on fatalities due to motor vehicle c
 The data set that will be used in this project has been sourced from the National Collision Database, published by Transport Canada, which can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a). The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We will start off our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
 
 ## Model
-Describe the analysis
+The Logistic Regression algorithm was used to build a classification model to predict whether a motor vehicle collision lead to a fatality or not. All variables included in the original data set, with the exception of "C_YEAR", "C_CASE", "C_SEV" were used to fit the model. The hyperparameter's $C$ and $Gamma$ were chosen using 5-fold cross validation with random search `RandomizedSearchCV`. We also performed feature selection using `OneHotEncoder`, `RFECV`, and `LogisticRegression`. The R and Python programming languages and the following R and Python packages were used to perform the analysis: knitr, docopt, scikit-learn, Pandas, Altair, Vegalite. The code used to perform the analysis and create this report can be found here: <https://github.com/UBC-MDS/Collision_Prediction>.
 
 # Results
 Describe the results
