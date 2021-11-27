@@ -76,7 +76,7 @@ if __name__ == '__main__':
     train_df = pd.read_csv(train_path, low_memory=False)
     
     create_and_save_chart(train_df, 'C_WTHR', 'Weather condition', save_path)
-    create_and_save_chart(train_df, 'C_RCFG', 'Road configuration', save_path)
+    create_and_save_chart(train_df, 'C_RCFG', 'Roadway configuration', save_path)
     create_and_save_chart(train_df, 'C_MNTH', 'Month', save_path)
     create_and_save_chart(train_df, 'V_TYPE', 'Vehicle type', save_path)
-    create_and_save_chart(train_df, 'P_AGE', 'Driver age', save_path) 
+    create_and_save_chart(train_df, 'P_AGE', 'Person age', save_path) 
