@@ -26,8 +26,8 @@ def main():
     )
 
     # Creating 'FATALITY' column to convert multi-class outcomes to binary-class
-    ncdb.loc[ncdb["P_ISEV"] == "3", "FATALITY"] = "True"
-    ncdb.loc[ncdb["P_ISEV"] != "3", "FATALITY"] = "False"
+    ncdb.loc[ncdb["P_ISEV"] == "3", "FATALITY"] = True
+    ncdb.loc[ncdb["P_ISEV"] != "3", "FATALITY"] = False
 
     # Split data into train and test split (90:10)
     train_df, test_df = train_test_split(ncdb, test_size=0.1, random_state=21)
