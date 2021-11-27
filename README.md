@@ -1,6 +1,6 @@
 # Motor Vehicle Collision Fatality Predictor
 
-* authors: Abdul Moid Mohammed, Daniel King, Doris Tao, Linh Giang Nguyen
+* Authors: Abdul Moid Mohammed, Daniel King, Doris Tao, Linh Giang Nguyen
 
 ## About
 
@@ -14,7 +14,7 @@ The final report can be found [here]("")
 
 ## Usage
 
-To replicate this analysis, clone this GitHub repository, install the listed [dependencies][Dependencies], and run the following commands from the terminal/command line from within the project's root directory:
+To replicate this analysis, clone this GitHub repository, install the listed [dependencies](#Dependencies), and run the following commands from the terminal/command line from within the project's root directory:
 
 ```
 # download data
@@ -33,7 +33,7 @@ To replicate this analysis, clone this GitHub repository, install the listed [de
 
 ```
 
-## [Dependencies]
+## Dependencies
 
 * Python 3.10.0 and Python packages:
   * altair=4.1.0=py_1
