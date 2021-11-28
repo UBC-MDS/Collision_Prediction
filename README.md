@@ -38,6 +38,7 @@ To replicate this analysis, clone this GitHub repository, install the listed [de
 * Python 3.10.0 and Python packages:
   * altair=4.1.0=py_1
   * altair_saver
+  * imbalanced-learn
   * pandas==1.3.4
   * scikit-learn==1.0.1
   * docopt-ng==0.7.2
