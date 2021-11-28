@@ -200,7 +200,7 @@ pre code {
 <li><a href="#methods">Methods</a>
 <ul>
 <li><a href="#data">Data</a></li>
-<li><a href="#analysis">Analysis</a></li>
+<li><a href="#model">Model</a></li>
 </ul></li>
 <li><a href="#results-discussion">Results &amp; Discussion</a></li>
 <li><a href="#references">References</a></li>
@@ -217,8 +217,8 @@ pre code {
 <h2>Data</h2>
 <p>The data set that will be used in this project has been sourced from the National Collision Database <span class="citation">(<span>“National Collision Database,”</span> n.d.)</span>, published by Transport Canada. The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We will start off our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.</p>
 </div>
-<div id="analysis" class="section level2">
-<h2>Analysis</h2>
+<div id="model" class="section level2">
+<h2>Model</h2>
 <p>The Logistic Regression algorithm was used to build a classification model to predict whether a motor vehicle collision lead to a fatality or not. All variables included in the original data set, with the exception of “C_YEAR,” “C_CASE,” “C_SEV” were used to fit the model. The “P_ISEV” column served as the target column to be predicted. The hyperparameter’s <span class="math inline">\(C\)</span> and <span class="math inline">\(Gamma\)</span> were chosen using 5-fold cross validation with random search <code>RandomizedSearchCV</code>. In order to tackle the issue of class imbalance, we performed random undersampling using <code>RandomUnderSampler</code>. This helped us in determining the Logistic Regression model with the best parameters. We further performed feature selection using <code>RandomUnderSampler</code>, <code>OneHotEncoder</code>, <code>RFECV</code>, and <code>LogisticRegression</code> model to reduce the number of features. The R and Python programming languages <span class="citation">(R Core Team 2019; Van Rossum and Drake 2009)</span> and the following R and Python packages were used to perform the analysis: knitr <span class="citation">(Xie 2014)</span>, docopt <span class="citation">(Keleshev 2014)</span>, os <span class="citation">(Van Rossum and Drake 2009)</span>, Pandas <span class="citation">(McKinney 2010)</span>, scikit-learn <span class="citation">(Pedregosa et al. 2011)</span>, Altair <span class="citation">(VanderPlas et al. 2018)</span>, Vegalite <span class="citation">(Satyanarayan et al. 2017)</span>. The code used to perform the analysis and create this report can be found here: <a href="https://github.com/UBC-MDS/Collision_Prediction" class="uri">https://github.com/UBC-MDS/Collision_Prediction</a>.</p>
 </div>
 </div>
