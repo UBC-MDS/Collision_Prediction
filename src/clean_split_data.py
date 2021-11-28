@@ -8,7 +8,7 @@ Usage: clean_split_data.py --input=<input filepath> --output=<output directory>
 Options:
 --input=<input filepath>    Filepath of data in csv format
 --output=<output directory> Directory specifying where to store training and test data sets
-"""  
+"""
 
 import pandas as pd
 import numpy as np
@@ -17,20 +17,20 @@ from docopt import docopt
 
 opt = docopt(__doc__)
 
-def main():    
-    # Importing NCDB 2017 dataset and dropping irrelevant or redundant columns
-    ncdb = (
-        pd.read_csv(opt["--input"], low_memory=False)
-        .sort_index()
-        .drop(columns=["C_YEAR", "C_CASE", "C_SEV"])
-    )
-    
+
+def main():
+    # Importing NCDB 2017 dataset
+    ncdb = pd.read_csv(opt["--input"], low_memory=False).sort_index()
+
     # Make all columns contain strings
     ncdb = ncdb.astype("string")
 
     # Creating 'FATALITY' column to convert multi-class outcomes to binary-class
     ncdb.loc[ncdb["P_ISEV"] == "3", "FATALITY"] = True
     ncdb.loc[ncdb["P_ISEV"] != "3", "FATALITY"] = False
+
+    # Dropping irrelevant or redundant columns
+    ncdb = ncdb.drop(columns=["C_YEAR", "C_CASE", "C_SEV", "P_ISEV", "V_ID", "P_ID"])
 
     # Split data into train and test split (90:10)
     train_df, test_df = train_test_split(ncdb, test_size=0.1, random_state=21)
@@ -45,6 +45,7 @@ def main():
     train_df.to_csv(f"{output}train.csv", index_label="index")
     test_df.to_csv(f"{output}test.csv", index_label="index")
     # When reading train_df or test_df, must use .set_index("index").rename_axis(None)
+
 
 if __name__ == "__main__":
     main()
