@@ -16,8 +16,8 @@ import pickle
 
 import numpy as np
 from sklearn.metrics import make_scorer
-from sklearn.model_selection import RandomizedSearchCV, cross_val_score, cross_validate
-from sklearn.metrics import classification_report
+from sklearn.model_selection import RandomizedSearchCV, cross_val_score, cross_validate, cross_val_predict
+from sklearn.metrics import classification_report, confusion_matrix
 
 opt = docopt(__doc__)
 
@@ -41,7 +41,7 @@ def main(input, output):
     y_test = test_df["FATALITY"]
     
     # Get optimized model
-    model = pickle.load(open(f"{input}lr_model.rds", "rb"))
+    model = pickle.load(open(f"{input}final_model.rds", "rb"))
     model.fit(X_train, y_train)
     
     # Get scores
@@ -51,6 +51,12 @@ def main(input, output):
         "test_score": [model.score(X_test, y_test)]
     }
     scores = pd.DataFrame(scores)
+    
+    # Get confusion matrix
+    conf_mat = confusion_matrix(
+        y_test, 
+        model.predict(X_test)
+    )
     
     # Get classification report on test data
     model.fit(X_train, y_train)
@@ -63,29 +69,15 @@ def main(input, output):
     )
     class_rpt = pd.DataFrame(class_rpt)
     
-    # Get top coefficients
-    random_search = pickle.load(open(f"{input}random_search.rds", "rb"))
-    best_estimator = random_search.best_estimator_
-    col_names = best_estimator[
-        'onehotencoder'
-    ].get_feature_names_out()
-    weights = best_estimator["logisticregression"].coef_
-    affection_coeff_df = pd.DataFrame(weights[0], index=col_names, columns=["Coefficient"])
-    coeff_full = affection_coeff_df.sort_values(by="Coefficient", ascending=False)
-    coeff_head = affection_coeff_df.sort_values(by="Coefficient", ascending=False).head(20)
-    coeff_tail = affection_coeff_df.sort_values(by="Coefficient", ascending=False).tail(20)
-    
     # Save test scores
     save_df(scores, "scores", output)
     
+    # Save confusion matrix
+    save_df(conf_mat, "confusion_matrix", output)
+    
     # Save classification report
     save_df(class_rpt, "classification_rpt", output)
-    
-    # Save coefficient tables
-    save_df(coeff_full, "coeff_fulls", output)
-    save_df(coeff_head, "coeff_head", output)
-    save_df(coeff_tail, "coeff_tail", output)
-    
+
 # Helper funciton for saving dataframes
 def save_df(df, name, output):
     df.to_pickle(f"{output}{name}.rds")
