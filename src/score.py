@@ -46,7 +46,6 @@ def main(input, output):
     
     # Get scores
     scores = {
-        "train_score": [model.score(X_train, y_train)] ,
         "test_score": [model.score(X_test, y_test)]
     }
     scores = pd.DataFrame(scores)
