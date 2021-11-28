@@ -44,19 +44,19 @@ def create_and_save_chart(df, col, save_path):
 
     Examples
     --------
-    >>> create_chart('C_WTHR', 'Weather condition')
+    >>> create_chart(train_df, 'C_WTHR', results)
     """
 
-    if col == "P_AGE":
+    if col == "P_SEX":
         chart = (
             alt.Chart(df)
-            .mark_line()
+            .mark_bar(opacity=0.8)
             .encode(
-                x=alt.X("P_AGE:Q"),
+                x=alt.X(col),
                 y=alt.Y("count()", title="Number of collisions"),
                 color=alt.Color("FATALITY", legend=None),
             )
-            .properties(width=300, height=300)
+            .properties(width=150, height=150)
             .facet("FATALITY")
             .resolve_scale(y="independent")
         )
@@ -70,7 +70,7 @@ def create_and_save_chart(df, col, save_path):
                 y=alt.Y("count()", title="Number of collisions"),
                 color=alt.Color("FATALITY", legend=None),
             )
-            .properties(width=300, height=300)
+            .properties(width=150, height=150)
             .facet("FATALITY")
             .resolve_scale(y="independent")
         )
@@ -88,4 +88,7 @@ if __name__ == "__main__":
     )
 
     for feature in train_df.columns:
-        create_and_save_chart(train_df, feature, save_path)
+        if feature == 'index' or feature == 'FATALITY':
+            pass
+        else:
+            create_and_save_chart(train_df, feature, save_path)
