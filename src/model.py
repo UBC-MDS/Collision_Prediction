@@ -96,11 +96,8 @@ def main(input, output):
     # Create output tables/images
     save_df(result_df, "score_results", output)
 
-    # Storing optimized model
-    pickle.dump(model, open(f"{output}final_model.rds", "wb"))
-    
-    # Storing random search
-    pickle.dump(random_search, open(f"{output}random_search.rds", "wb"))
+    # Storing logistic regression model
+    pickle.dump(model, open(f"{output}lr_model.rds", "wb"))
 
 
 # Function obtained from DSCI-571 lecture notes
