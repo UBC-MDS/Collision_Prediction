@@ -3,7 +3,7 @@
 # date: 2021-11-19
 
 """Downloads data as a csv file from online to a local filepath via a URL.
-Usage: download_script.py --url=<url> --filepath=<filepath> 
+Usage: download_data.py --url=<url> --filepath=<filepath> 
  
 Options:
 --url=<url>             URL from where to download the data (must be in standard csv format)
