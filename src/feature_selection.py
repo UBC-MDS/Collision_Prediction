@@ -65,7 +65,8 @@ def main(input, output):
 
     scores = pd.DataFrame(score_dict)
 
-    # Create output tables/images
+    # Create output tables
+    scores.to_csv(r'/dir/scores_after_FS.csv')
     save_df(scores, "scores_after_FS", output)
 
     # Print model accuracy
