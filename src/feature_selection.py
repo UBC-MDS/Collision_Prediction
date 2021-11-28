@@ -18,6 +18,7 @@ from imblearn.pipeline import make_pipeline as make_imb_pipeline
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.feature_selection import RFECV
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.metrics import get_scorer
 
 opt = docopt(__doc__)
 
@@ -49,7 +50,17 @@ def main(input, output):
     )
 
     # Fitting the pipeline
-    pipe_ohe_rfe_lr.fit(X_train, y_train)
+    final_model = pipe_ohe_rfe_lr.fit(X_train, y_train)
+
+    # Generating scores on the updated LR model
+    score_dict = {}
+    scoring_metrics = ['accuracy', 'f1', 'precision', 'recall']
+
+    score_dict['LR after Feature Selection'] = {
+        scorer: get_scorer(scorer)(pipe_ohe_rfe_lr, X_train, y_train) for scorer in scoring_metrics
+    }
+
+    scores = pd.DataFrame(score_dict)
 
 
 if __name__ == "__main__":
