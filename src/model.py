@@ -35,24 +35,32 @@ def main(input, output):
     
     # Get data
     train_df = pd.read_csv(f"{input}train.csv", low_memory=False).set_index("index").rename_axis(None)
-    test_df = pd.read_csv(f"{input}test.csv", low_memory=False).set_index("index").rename_axis(None)
-    
     X_train = train_df.drop(columns=["FATALITY", "P_ISEV"])
-    X_test = test_df.drop(columns=["FATALITY", "P_ISEV"])
-    
     y_train = train_df["FATALITY"]
-    y_test = test_df["FATALITY"]
     
     # Convert columns into string data type
     cols = X_train.columns.tolist()
     for i in range(len(cols)):
         X_train[cols[i]] = X_train[cols[i]].astype(str)
-        X_test[cols[i]] = X_test[cols[i]].astype(str)
     
     #Transform columns (all categorical)
-    categorical_feats = cols
+    categorical_feats = [
+        "C_MNTH",
+        "C_RCFG",
+        "C_WTHR",
+        "P_AGE",
+        "V_TYPE",
+        "C_CONF",
+        "C_HOUR",
+        "C_TRAF",
+        "V_YEAR",
+        "P_SAFE",
+    ]
+
+    drop_feats = list(set(X_train.columns) - set(categorical_feats))
     preprocessor = make_column_transformer(
         (OneHotEncoder(handle_unknown="ignore", sparse=False), categorical_feats),
+        ("drop", drop_feats)
     )
     
     preprocessor.fit(X_train)
@@ -66,7 +74,7 @@ def main(input, output):
     
     # Pipeline including OneHotEncoder and LogisticRegression
     pipe = make_pipeline(
-        OneHotEncoder(handle_unknown="ignore", sparse=False), 
+        preprocessor, 
         LogisticRegression(max_iter=2000)
     )
     
