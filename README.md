@@ -1,6 +1,6 @@
 # Motor Vehicle Collision Fatality Predictor
 
-* Authors: Abdul Moid Mohammed, Daniel King, Doris Tao, Linh Giang Nguyen
+* Authors: Abdul Moid Mohammed, Daniel King, Siqi Tao, Linh Giang Nguyen
 
 ## About
 
