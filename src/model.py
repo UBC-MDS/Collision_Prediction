@@ -1,8 +1,8 @@
 # author: Siqi Tao
 # date: 2021-11-26
 
-"""Downloads data as a csv file from online to a local filepath via a URL.
-Usage: download_script.py --url=<url> --filepath=<filepath> 
+"""Perform machine learning analysis on the cleaned data
+Usage: model.py --input=<input>  --output=<output> 
  
 Options:
 --input=<input>       The path or filename pointing to the data
