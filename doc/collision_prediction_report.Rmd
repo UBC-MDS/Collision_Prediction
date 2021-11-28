@@ -43,7 +43,7 @@ knitr::include_graphics("../results/Distribution_of_no_fatality.png", dpi=100)
 knitr::include_graphics("../results/Distribution_of_fatality.png", dpi=100)
 ```
 
-We chose to apply a logistic regression model on the data set and ran hyper-parameter optimization to find the most optimized model; after that, we applied RfECV for feature selection.
+We chose to apply a logistic regression model on the data set and ran hyper-parameter optimization to find the most optimized model; after that, we applied RFECV for feature selection.
 
 ```{r}
 scores <- score_results %>% 
