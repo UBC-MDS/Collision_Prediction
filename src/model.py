@@ -38,8 +38,8 @@ def main():
     train_df = pd.read_csv(f"{input}train.csv", low_memory=False)
     test_df = pd.read_csv(f"{input}test.csv", low_memory=False)
     
-    X_train = train_df.drop(columns=["FATALITY"])
-    X_test = test_df.drop(columns=["FATALITY"])
+    X_train = train_df.drop(columns=["FATALITY", "P_ISEV"])
+    X_test = test_df.drop(columns=["FATALITY", "P_ISEV"])
     
     y_train = train_df["FATALITY"]
     y_test = test_df["FATALITY"]
@@ -115,8 +115,10 @@ def main():
     save_df(result_df, "score_results")
     save_df(conf_mat, "confusion matrix")
     
+    
+    
     # Storing optimized model
-    pickle.dump(model, open(f"{input}final_model.rds", "wb"))
+    pickle.dump(model, open(f"{input}lr_model.rds", "wb"))
     
 # Function obtained from DSCI-571 lecture notes
 def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
