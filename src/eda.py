@@ -43,7 +43,7 @@ if __name__ == "__main__":
         alt.Chart(train_df)
         .mark_bar(opacity=0.5)
         .encode(
-            x=alt.X(alt.repeat("row"), type="quantitative"),
+            x=alt.X(alt.repeat("row"), type="quantitative", bin=alt.Bin(maxbins=40)),
             y=alt.Y("count()", title="Number of collisions"),
             color=alt.Color("FATALITY", scale=alt.Scale(range=["blue"]), legend=None))
         .properties(width=150, height=100)
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         alt.Chart(train_df)
         .mark_bar(opacity=0.5)
         .encode(
-            x=alt.X(alt.repeat("row"), type="quantitative"),
+            x=alt.X(alt.repeat("row"), type="quantitative", bin=alt.Bin(maxbins=40)),
             y=alt.Y("count()", title="Number of collisions"),
             color=alt.Color("FATALITY", scale=alt.Scale(range=["green"]), legend=None))
         .properties(width=150, height=100)
