@@ -52,6 +52,9 @@ def main(input, output):
     # Fitting the pipeline
     final_model = pipe_ohe_rfe_lr.fit(X_train, y_train)
 
+    # Saving final model
+    pickle.dump(final_model, open(f"{output}final_model.rds", "wb"))
+
     # Generating scores on the updated LR model
     score_dict = {}
     scoring_metrics = ['accuracy', 'f1', 'precision', 'recall']
