@@ -18,12 +18,16 @@ To replicate this analysis, clone this GitHub repository, install the listed [de
 
 ```
 # download data
+python src/download_data.py --url="https://opendatatc.blob.core.windows.net/opendatatc/NCDB_2017.csv" --filepath=data/raw/NCDB_2017.csv
 
-#run eda report
+# clean and split data
+python src/clean_split_data.py --input=data/raw/NCDB_2017.csv --output=data/processed/
 
-#clean and split data
+# run eda report
+python src/eda.py --train=data/processed/NCDB_2017.csv --out_dir=results/figures/
 
-# tune model
+# create and tune model
+python model.py --input=data/processed/train.csv --output=results/
 
 # select features
 
