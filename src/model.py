@@ -1,4 +1,4 @@
-# author: Siqi Tao
+# author: DSCI-522 Group-21
 # date: 2021-11-26
 
 """Perform machine learning analysis on the cleaned data
@@ -18,90 +18,55 @@ import pandas as pd
 from sklearn.compose import ColumnTransformer, make_column_transformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import make_scorer
-from sklearn.model_selection import (
-    RandomizedSearchCV,
-    cross_val_score,
-    cross_validate
-)
+from sklearn.model_selection import RandomizedSearchCV, cross_val_score, cross_validate
 from sklearn.pipeline import Pipeline, make_pipeline
 from sklearn.preprocessing import OneHotEncoder
 from scipy.stats import loguniform
 from sklearn.metrics import confusion_matrix
 import pickle
+import imblearn
+from imblearn.pipeline import make_pipeline as make_imb_pipeline
+from imblearn.under_sampling import RandomUnderSampler
 
 opt = docopt(__doc__)
 
-def main(input, output): 
-    
-    # Get data
-    train_df = pd.read_csv(f"{input}train.csv", low_memory=False).set_index("index").rename_axis(None)
-    X_train = train_df.drop(columns=["FATALITY", "P_ISEV"])
-    y_train = train_df["FATALITY"]
-    
-    # Convert columns into string data type
-    cols = X_train.columns.tolist()
-    for i in range(len(cols)):
-        X_train[cols[i]] = X_train[cols[i]].astype(str)
-    
-    #Transform columns (all categorical)
-    categorical_feats = [
-        "C_MNTH",
-        "C_RCFG",
-        "C_WTHR",
-        "P_AGE",
-        "V_TYPE",
-        "C_CONF",
-        "C_HOUR",
-        "C_TRAF",
-        "V_YEAR",
-        "P_SAFE",
-    ]
 
-    drop_feats = list(set(X_train.columns) - set(categorical_feats))
-    preprocessor = make_column_transformer(
-        (OneHotEncoder(handle_unknown="ignore", sparse=False), categorical_feats),
-        ("drop", drop_feats)
+def main(input, output):
+
+    # Get data
+    train_df = (
+        pd.read_csv(f"{input}", low_memory=False)
+        .set_index("index")
+        .rename_axis(None)
     )
-    
-    preprocessor.fit(X_train)
-    
-    # Get column names
-    columns = list(
-        preprocessor.named_transformers_["onehotencoder"].get_feature_names_out(
-            categorical_feats
-        )
-    )
-    
-    # Pipeline including OneHotEncoder and LogisticRegression
+    X_train = train_df.drop(columns=["FATALITY"])
+    y_train = train_df["FATALITY"]
+
+    # Undersample to address class imbalance
+    rus = RandomUnderSampler(random_state=21)
+    X_train_subsample, y_train_subsample = rus.fit_resample(X_train, y_train)
+
+    # Convert columns into string data type
+    cols = X_train_subsample.columns.tolist()
+    for i in range(len(cols)):
+        X_train[cols[i]] = X_train_subsample[cols[i]].astype(str)
+
+    # Pipeline including OneHotEncoder (all features categorical) and LogisticRegression
     pipe = make_pipeline(
-        preprocessor, 
+        OneHotEncoder(handle_unknown="ignore", sparse=False),
         LogisticRegression(max_iter=2000)
     )
-    
-    # Scoring include accuracy, f1, recall, precision. 
+
+    # Determine cross-validation accuracy of unoptimized model
+    # Only need accuracy as classes are now balanced
     results = {}
-    scoring = [
-        "accuracy",
-        "f1", 
-        "recall", 
-        "precision", 
-        "roc_auc", 
-        "average_precision"
-    ]
-    results["Logistic Regression"] = mean_std_cross_val_scores(pipe, X_train, y_train, scoring=scoring)
-    result_df = pd.DataFrame(results)
-    
-    # Plot confusion matrix
-    pipe.fit(X_train, y_train)
-    preds = pipe.predict(X_train)
-    conf_mat = confusion_matrix(y_train, preds)
-    conf_mat = pd.DataFrame(conf_mat)
-    
-    # Hyperparameter tuning using RandomSearchCV 
-    # Optimize using f1 as we have class imbalance.
+    results["Logistic Regression"] = mean_std_cross_val_scores(
+        pipe, X_train_subsample, y_train_subsample
+    )
+
+    # Hyperparameter tuning using RandomSearchCV
     param_grid = {
         "logisticregression__C": loguniform(1e-3, 1e3),
-        "logisticregression__class_weight": [None, "balanced"],
     }
     random_search = RandomizedSearchCV(
         pipe,
@@ -110,27 +75,38 @@ def main(input, output):
         verbose=1,
         n_jobs=-1,
         random_state=123,
-        return_train_score=True,
-        scoring="f1"
+        return_train_score=True
     )
-    random_search.fit(X_train, y_train)
+    random_search.fit(X_train_subsample, y_train_subsample)
     print("Best hyperparameter values: ", random_search.best_params_)
     print("Best score: %0.3f" % (random_search.best_score_))
-    
+
+    # Create optimized model
+    model = make_pipeline(
+        OneHotEncoder(handle_unknown="ignore", sparse=False),
+        LogisticRegression(
+            max_iter=2000,
+            C = random_search.best_params_["logisticregression__C"]
+        )
+    )
+
+    # Determine cross-validation scores of optimized model
+    results["Logistic Regression Optimized"] = mean_std_cross_val_scores(
+        model, X_train_subsample, y_train_subsample
+    )
+    result_df = pd.DataFrame(results)
+
     # Create output tables/images
-    save_df(result_df, "score_results")
-    save_df(conf_mat, "confusion matrix")
-    
-    
-    
+    save_df(result_df, "score_results", output)
+
     # Storing optimized model
     pickle.dump(model, open(f"{output}lr_model.rds", "wb"))
-    
+
+
 # Function obtained from DSCI-571 lecture notes
 def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
     """
     Returns mean and std of cross validation
-
     Parameters
     ----------
     model :
@@ -139,7 +115,6 @@ def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
         X in the training data
     y_train :
         y in the training data
-
     Returns
     ----------
         pandas Series with mean scores from cross_validation
@@ -155,9 +130,11 @@ def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
         out_col.append((f"%0.3f (+/- %0.3f)" % (mean_scores[i], std_scores[i])))
 
     return pd.Series(data=out_col, index=mean_scores.index)
-    
-def save_df(df, name):
-    df.to_pickle(f"{output}{name}.rds")    
-    
+
+
+def save_df(df, name, output):
+    df.to_pickle(f"{output}{name}.rds")
+
+
 if __name__ == "__main__":
-    main(opt["--input"], opt["--output"]) 
+    main(opt["--input"], opt["--output"])
