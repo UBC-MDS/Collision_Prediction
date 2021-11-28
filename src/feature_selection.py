@@ -5,22 +5,32 @@ Imports the model pickle file and carries out Feature Selection to drop features
 Usage: feature_selection.py --input=<input filepath> --output=<output directory>
 
 Options:
---input=<input filepath>    Filepath of the classification model
---output=<output directory> Directory specifying where to store the model after
-                            feature selection
+--input=<input filepath>      Filepath of the processed data
+--output=<output directory>   Directory specifying where to store the model after
+                              feature selection
 """
 
 # Import libraries
 import pandas as pd
-import pickle
+from docopt import docopt
 
 opt = docopt(__doc__)
 
+
 # Feature Selection function
-def main(input, output):
-    # Import pickle file
-    lr_model = pickle.load(open(f"{input}lr_model.rds", "rb"))
+def main(input):
+
+    # Import processed train data
+    train_df = (
+        pd.read_csv(f"{input}", low_memory=False)
+        .set_index("index")
+        .rename_axis(None)
+    )
+
+    # Separate train data into X_train and y_train
+    X_train = train_df.drop(columns=["FATALITY"])
+    y_train = train_df["FATALITY"]
 
 
 if __name__ == "__main__":
-    main(opt["--input"], opt["--output"])
+    main(opt["--input"])
