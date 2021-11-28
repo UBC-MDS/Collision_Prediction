@@ -6,7 +6,7 @@ Usage: model.py --input=<input>  --output=<output>
  
 Options:
 --input=<input>       The path or filename pointing to the data
---output=<output>     The prefix where to write the output figure(s)/table(s) to
+--output=<output>     The prefix where to write the output figure(s)/table(s) to and what to call it 
 """
 
 import os
@@ -14,6 +14,7 @@ import pandas as pd
 from docopt import docopt
 
 import numpy as np
+import pandas as pd
 from sklearn.compose import ColumnTransformer, make_column_transformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import make_scorer
@@ -28,6 +29,7 @@ from imblearn.pipeline import make_pipeline as make_imb_pipeline
 from imblearn.under_sampling import RandomUnderSampler
 
 opt = docopt(__doc__)
+
 
 def main(input, output):
 
@@ -48,7 +50,7 @@ def main(input, output):
     # Pipeline including RandomUnderSampler, OneHotEncoder, and LogisticRegression
     # Using undersampling to address class imbalance
     pipe = make_imb_pipeline(
-        RandomUnderSampler(),
+        RandomUnderSampler(random_state=21),
         OneHotEncoder(handle_unknown="ignore", sparse=False),
         LogisticRegression(max_iter=2000)
     )
@@ -78,25 +80,32 @@ def main(input, output):
     print("Best score: %0.3f" % (random_search.best_score_))
 
     # Create optimized model
-    model = make_imb_pipeline(
-        RandomUnderSampler(),
+    imb_pipeline = make_imb_pipeline(
+        RandomUnderSampler(random_state=21),
         OneHotEncoder(handle_unknown="ignore", sparse=False),
         LogisticRegression(
             max_iter=2000,
-            C = random_search.best_params_["logisticregression__C"]
+            C=random_search.best_params_["logisticregression__C"]
         )
     )
 
     # Determine cross-validation scores of optimized model
     results["Logistic Regression Optimized"] = mean_std_cross_val_scores(
-        model, X_train, y_train, return_train_score=True
+        imb_pipeline, X_train, y_train, return_train_score=True
     )
     result_df = pd.DataFrame(results)
+    result_df.index.name = "score_type"
 
     # Create output tables/images
-    save_df(result_df, "score_results", output)
+    result_df.to_csv("results/score_results.csv")
 
-    # Storing logistic regression model
+    # Creating the best model
+    model = LogisticRegression(
+        max_iter=2000,
+        C=random_search.best_params_["logisticregression__C"]
+    )
+
+    # Storing optimized model
     pickle.dump(model, open(f"{output}lr_model.rds", "wb"))
 
 
@@ -127,10 +136,6 @@ def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
         out_col.append((f"%0.3f (+/- %0.3f)" % (mean_scores[i], std_scores[i])))
 
     return pd.Series(data=out_col, index=mean_scores.index)
-
-# Helper funciton for saving dataframes
-def save_df(df, name, output):
-    df.to_pickle(f"{output}{name}.rds")
 
 
 if __name__ == "__main__":
