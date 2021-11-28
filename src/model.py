@@ -98,6 +98,12 @@ def main(input, output):
     # Create output tables/images
     save_df(result_df, "score_results", output)
 
+    # Creating the best model
+    model = LogisticRegression(
+        max_iter=2000,
+        C=random_search.best_params_["logisticregression__C"]
+    )
+
     # Storing optimized model
     pickle.dump(model, open(f"{output}lr_model.rds", "wb"))
 
