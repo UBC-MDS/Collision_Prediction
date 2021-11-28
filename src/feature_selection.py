@@ -64,17 +64,13 @@ def main(input, output):
     }
 
     scores = pd.DataFrame(score_dict)
+    scores.index.name = "scoring_metric"
 
     # Create output tables
-    scores.to_csv(r'/dir/scores_after_FS.csv')
-    save_df(scores, "scores_after_FS", output)
+    scores.to_csv("results/scores_after_FS.csv")
 
     # Print model accuracy
     print("Model accuracy after feature selection:", scores.iloc[0, 0])
-
-
-def save_df(df, name, output):
-    df.to_pickle(f"{output}{name}.rds")
 
 
 if __name__ == "__main__":
