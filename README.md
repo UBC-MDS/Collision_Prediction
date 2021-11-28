@@ -1,6 +1,6 @@
 # Motor Vehicle Collision Fatality Predictor
 
-* Authors: Abdul Moid Mohammed, Daniel King, Doris Tao, Linh Giang Nguyen
+* Authors: Abdul Moid Mohammed, Daniel King, Siqi Tao, Linh Giang Nguyen
 
 ## About
 
@@ -30,6 +30,7 @@ python src/eda.py --train=data/processed/train.csv --out_dir=results/figures/
 python src/model.py --input=data/processed/train.csv --output=results/
 
 # select features
+python src/feature_selection.py --input=data/processed/train.csv --output=results/
 
 # test model
 

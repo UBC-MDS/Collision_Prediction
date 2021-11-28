@@ -22,62 +22,6 @@ alt.renderers.enable("mimetype")
 
 opt = docopt(__doc__)
 
-
-def create_and_save_chart(df, col, save_path):
-    """
-    Returns distribution plots of the feature of interest from the given dataframe.
-    The plot is faceted by class (no-fatality: blue, fatality: orange).
-
-    Parameters
-    ----------
-    df       : str
-        the given dataframe
-    col      : str
-        the feature of interest
-    save_path :
-        the path to directory where the plots should be saved
-
-    Returns
-    -------
-    out: altair.vegalite.v4.api.FacetChart
-       the faceted distribution plots
-
-    Examples
-    --------
-    >>> create_chart('C_WTHR', 'Weather condition')
-    """
-
-    if col == "P_AGE":
-        chart = (
-            alt.Chart(df)
-            .mark_line()
-            .encode(
-                x=alt.X("P_AGE:Q"),
-                y=alt.Y("count()", title="Number of collisions"),
-                color=alt.Color("FATALITY", legend=None),
-            )
-            .properties(width=300, height=300)
-            .facet("FATALITY")
-            .resolve_scale(y="independent")
-        )
-
-    else:
-        chart = (
-            alt.Chart(df)
-            .mark_bar(opacity=0.8)
-            .encode(
-                x=alt.X(col, type="quantitative"),
-                y=alt.Y("count()", title="Number of collisions"),
-                color=alt.Color("FATALITY", legend=None),
-            )
-            .properties(width=300, height=300)
-            .facet("FATALITY")
-            .resolve_scale(y="independent")
-        )
-
-    chart.save(f"{save_path}Distribution_of_{col}.png")
-
-
 if __name__ == "__main__":
 
     train_path = opt["--train"]
@@ -86,6 +30,49 @@ if __name__ == "__main__":
     train_df = (
         pd.read_csv(train_path, low_memory=False).set_index("index").rename_axis(None)
     )
+    
+    # Converts values of P_SEX column into numeric
+    sex = {'M': 1, 'F': 0, 'missing': 'missing'}
+    train_df['P_SEX'] = [sex[item] for item in train_df['P_SEX']]
+    
+    # Creates the list of features to feed into distribution plots
+    features = list(set(train_df.columns.values) - set(['index', 'FATALITY']))
 
-    for feature in train_df.columns:
-        create_and_save_chart(train_df, feature, save_path)
+    # Creates and saves distribution plots when Fatality = False
+    Chart_False = (
+        alt.Chart(train_df)
+        .mark_bar(opacity=0.5)
+        .encode(
+            x=alt.X(alt.repeat("row"), type="quantitative", bin=alt.Bin(maxbins=40)),
+            y=alt.Y("count()", title="Number of collisions"),
+            color=alt.Color("FATALITY", scale=alt.Scale(range=["blue"]), legend=None))
+        .properties(width=150, height=100)
+        .repeat(
+            row=features,
+            title="FATALITY = False")
+        .resolve_scale(y="independent")
+        .transform_filter(alt.FieldOneOfPredicate(field="FATALITY", oneOf=[False]))
+    )
+    
+    Chart_False.save(f"{save_path}Distribution_of_no_fatality.png")
+    
+    # Creates and saves distribution plots when Fatality = True
+    Chart_True = (
+        alt.Chart(train_df)
+        .mark_bar(opacity=0.5)
+        .encode(
+            x=alt.X(alt.repeat("row"), type="quantitative", bin=alt.Bin(maxbins=40)),
+            y=alt.Y("count()", title="Number of collisions"),
+            color=alt.Color("FATALITY", scale=alt.Scale(range=["green"]), legend=None))
+        .properties(width=150, height=100)
+        .repeat(
+            row=features,
+            title="FATALITY = True")
+        .resolve_scale(y="independent")
+        .transform_filter(alt.FieldOneOfPredicate(field="FATALITY", oneOf=[True]))
+    )
+    
+    Chart_True.save(f"{save_path}Distribution_of_fatality.png")
+
+
+
