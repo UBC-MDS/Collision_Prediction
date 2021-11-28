@@ -60,7 +60,7 @@ def main(input, output):
     # Get column names
     columns = list(
         preprocessor.named_transformers_["onehotencoder"].get_feature_names_out(
-            categorical_features
+            categorical_feats
         )
     )
     
