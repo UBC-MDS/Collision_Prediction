@@ -23,7 +23,7 @@ alt.renderers.enable("mimetype")
 opt = docopt(__doc__)
 
 
-def create_and_save_chart(df, col, save_path, title=None):
+def create_and_save_chart(df, col, save_path):
     """
     Returns distribution plots of the feature of interest from the given dataframe.
     The plot is faceted by class (no-fatality: blue, fatality: orange).
@@ -34,8 +34,6 @@ def create_and_save_chart(df, col, save_path, title=None):
         the given dataframe
     col      : str
         the feature of interest
-    title    : str
-        the label for the feature in the returned plot
     save_path :
         the path to directory where the plots should be saved
 
@@ -54,7 +52,7 @@ def create_and_save_chart(df, col, save_path, title=None):
             alt.Chart(df)
             .mark_line()
             .encode(
-                x=alt.X("P_AGE:Q", title=title),
+                x=alt.X("P_AGE:Q"),
                 y=alt.Y("count()", title="Number of collisions"),
                 color=alt.Color("FATALITY", legend=None),
             )
@@ -68,7 +66,7 @@ def create_and_save_chart(df, col, save_path, title=None):
             alt.Chart(df)
             .mark_bar(opacity=0.8)
             .encode(
-                x=alt.X(col, type="quantitative", title=title),
+                x=alt.X(col, type="quantitative"),
                 y=alt.Y("count()", title="Number of collisions"),
                 color=alt.Color("FATALITY", legend=None),
             )
