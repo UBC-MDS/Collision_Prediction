@@ -42,17 +42,15 @@ def main(input, output):
     X_train = train_df.drop(columns=["FATALITY"])
     y_train = train_df["FATALITY"]
 
-    # Undersample to address class imbalance
-    rus = RandomUnderSampler(random_state=21)
-    X_train_subsample, y_train_subsample = rus.fit_resample(X_train, y_train)
-
     # Convert columns into string data type
-    cols = X_train_subsample.columns.tolist()
+    cols = X_train.columns.tolist()
     for i in range(len(cols)):
-        X_train[cols[i]] = X_train_subsample[cols[i]].astype(str)
+        X_train[cols[i]] = X_train[cols[i]].astype(str)
 
-    # Pipeline including OneHotEncoder (all features categorical) and LogisticRegression
-    pipe = make_pipeline(
+    # Pipeline including RandomUnderSampler, OneHotEncoder, and LogisticRegression
+    # Using undersampling to address class imbalance
+    pipe = make_imb_pipeline(
+        RandomUnderSampler(),
         OneHotEncoder(handle_unknown="ignore", sparse=False),
         LogisticRegression(max_iter=2000)
     )
@@ -61,7 +59,7 @@ def main(input, output):
     # Only need accuracy as classes are now balanced
     results = {}
     results["Logistic Regression"] = mean_std_cross_val_scores(
-        pipe, X_train_subsample, y_train_subsample
+        pipe, X_train, y_train, return_train_score=True
     )
 
     # Hyperparameter tuning using RandomSearchCV
@@ -77,12 +75,13 @@ def main(input, output):
         random_state=123,
         return_train_score=True
     )
-    random_search.fit(X_train_subsample, y_train_subsample)
+    random_search.fit(X_train, y_train)
     print("Best hyperparameter values: ", random_search.best_params_)
     print("Best score: %0.3f" % (random_search.best_score_))
 
     # Create optimized model
-    model = make_pipeline(
+    model = make_imb_pipeline(
+        RandomUnderSampler(),
         OneHotEncoder(handle_unknown="ignore", sparse=False),
         LogisticRegression(
             max_iter=2000,
@@ -92,7 +91,7 @@ def main(input, output):
 
     # Determine cross-validation scores of optimized model
     results["Logistic Regression Optimized"] = mean_std_cross_val_scores(
-        model, X_train_subsample, y_train_subsample
+        model, X_train, y_train, return_train_score=True
     )
     result_df = pd.DataFrame(results)
 
