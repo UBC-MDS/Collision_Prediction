@@ -33,8 +33,10 @@ python src/model.py --input=data/processed/train.csv --output=results/
 python src/feature_selection.py --input=data/processed/train.csv --output=results/
 
 # test model
+python src/score.py --input=data/processed/ --output=results/
 
 # render final report
+Rscript -e "rmarkdown::render('doc/collision_prediction_report.Rmd')"
 
 ```
 
