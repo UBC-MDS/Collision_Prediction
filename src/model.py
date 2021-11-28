@@ -29,10 +29,6 @@ from imblearn.under_sampling import RandomUnderSampler
 
 opt = docopt(__doc__)
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 1c794e74958c220b61faeacf7d9323efc0d96167
 def main(input, output):
 
     # Get data
