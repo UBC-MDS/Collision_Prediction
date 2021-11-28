@@ -94,9 +94,10 @@ def main(input, output):
         imb_pipeline, X_train, y_train, return_train_score=True
     )
     result_df = pd.DataFrame(results)
+    result_df.index.name = "score_type"
 
     # Create output tables/images
-    save_df(result_df, "score_results", output)
+    result_df.to_csv("results/score_results.csv")
 
     # Creating the best model
     model = LogisticRegression(
@@ -135,10 +136,6 @@ def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
         out_col.append((f"%0.3f (+/- %0.3f)" % (mean_scores[i], std_scores[i])))
 
     return pd.Series(data=out_col, index=mean_scores.index)
-
-
-def save_df(df, name, output):
-    df.to_pickle(f"{output}{name}.rds")
 
 
 if __name__ == "__main__":
