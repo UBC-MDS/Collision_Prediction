@@ -17,12 +17,13 @@ from docopt import docopt
 import pandas as pd
 import altair as alt
 
-alt.data_transformers.enable('data_server')
-alt.renderers.enable('mimetype');
+alt.data_transformers.enable("data_server")
+alt.renderers.enable("mimetype")
 
 opt = docopt(__doc__)
 
-def create_and_save_chart(df, col, title, save_path):
+
+def create_and_save_chart(df, col, save_path, title=None):
     """
     Returns distribution plots of the feature of interest from the given dataframe.
     The plot is faceted by class (no-fatality: blue, fatality: orange).
@@ -40,49 +41,53 @@ def create_and_save_chart(df, col, title, save_path):
 
     Returns
     -------
-    out: altair.vegalite.v4.api.FacetChart 
-       the faceted distribution plots 
-    
+    out: altair.vegalite.v4.api.FacetChart
+       the faceted distribution plots
+
     Examples
     --------
     >>> create_chart('C_WTHR', 'Weather condition')
     """
-    
-    if col == 'P_AGE':
-        chart = alt.Chart(df).mark_line().encode(
-                    x=alt.X('P_AGE:Q', title=title),
-                    y=alt.Y('count()', title='Number of collisions'),
-                    color=alt.Color('FATALITY', legend=None)
-                ).properties(
-                    width=300,
-                    height=300
-                ).facet('FATALITY'
-                ).resolve_scale(y='independent'
-        )
-    
-    else:
-        chart = alt.Chart(df).mark_bar(opacity=0.8).encode(
-                    x=alt.X(col, type='quantitative', title=title),
-                    y=alt.Y('count()', title='Number of collisions'),
-                    color=alt.Color('FATALITY', legend=None)
-                ).properties(
-                    width=300,
-                    height=300
-                ).facet('FATALITY'
-                ).resolve_scale(y='independent'
-        )
-        
-    chart.save(f'{save_path}/Distribution_of_{col}.png')
 
-if __name__ == '__main__':
-    
-    train_path = opt['--train']
-    save_path = opt['--out_dir']
-    
-    train_df = pd.read_csv(train_path, low_memory=False)
-    
-    create_and_save_chart(train_df, 'C_WTHR', 'Weather condition', save_path)
-    create_and_save_chart(train_df, 'C_RCFG', 'Roadway configuration', save_path)
-    create_and_save_chart(train_df, 'C_MNTH', 'Month', save_path)
-    create_and_save_chart(train_df, 'V_TYPE', 'Vehicle type', save_path)
-    create_and_save_chart(train_df, 'P_AGE', 'Person age', save_path) 
+    if col == "P_AGE":
+        chart = (
+            alt.Chart(df)
+            .mark_line()
+            .encode(
+                x=alt.X("P_AGE:Q", title=title),
+                y=alt.Y("count()", title="Number of collisions"),
+                color=alt.Color("FATALITY", legend=None),
+            )
+            .properties(width=300, height=300)
+            .facet("FATALITY")
+            .resolve_scale(y="independent")
+        )
+
+    else:
+        chart = (
+            alt.Chart(df)
+            .mark_bar(opacity=0.8)
+            .encode(
+                x=alt.X(col, type="quantitative", title=title),
+                y=alt.Y("count()", title="Number of collisions"),
+                color=alt.Color("FATALITY", legend=None),
+            )
+            .properties(width=300, height=300)
+            .facet("FATALITY")
+            .resolve_scale(y="independent")
+        )
+
+    chart.save(f"{save_path}Distribution_of_{col}.png")
+
+
+if __name__ == "__main__":
+
+    train_path = opt["--train"]
+    save_path = opt["--out_dir"]
+
+    train_df = (
+        pd.read_csv(train_path, low_memory=False).set_index("index").rename_axis(None)
+    )
+
+    for feature in train_df.columns:
+        create_and_save_chart(train_df, feature, save_path)
