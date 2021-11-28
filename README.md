@@ -18,12 +18,16 @@ To replicate this analysis, clone this GitHub repository, install the listed [de
 
 ```
 # download data
+python src/download_data.py --url="https://opendatatc.blob.core.windows.net/opendatatc/NCDB_2017.csv" --filepath=data/raw/NCDB_2017.csv
 
-#run eda report
+# clean and split data
+python src/clean_split_data.py --input=data/raw/NCDB_2017.csv --output=data/processed/
 
-#clean and split data
+# run eda report
+python src/eda.py --train=data/processed/train.csv --out_dir=results/figures/
 
-# tune model
+# create and tune model
+python src/model.py --input=data/processed/train.csv --output=results/
 
 # select features
 
@@ -38,6 +42,7 @@ To replicate this analysis, clone this GitHub repository, install the listed [de
 * Python 3.10.0 and Python packages:
   * altair=4.1.0=py_1
   * altair_saver
+  * imbalanced-learn
   * pandas==1.3.4
   * scikit-learn==1.0.1
   * docopt-ng==0.7.2
