@@ -18,8 +18,7 @@ library(tidyverse)
 ```
 
 ```{r load model results}
-lr_model <- readRDS("../results/scores_after_FS.rds")
-# model_quality <- read_csv("../results/final_model_quality.rds")
+final_model_scores <- read_csv("../results/scores_test2.csv", show_col_types = FALSE)
 ```
 
 # Introduction
