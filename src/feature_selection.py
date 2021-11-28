@@ -12,12 +12,15 @@ Options:
 
 # Import libraries
 import pandas as pd
+import pickle
 
 opt = docopt(__doc__)
 
 # Feature Selection function
 def main(input, output):
-    # Code
+    # Import pickle file
+    lr_model = pickle.load(open(f"{input}lr_model.rds", "rb"))
+
 
 if __name__ == "__main__":
-    main()   
+    main(opt["--input"], opt["--output"])
