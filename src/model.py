@@ -50,7 +50,7 @@ def main(input, output):
     # Pipeline including RandomUnderSampler, OneHotEncoder, and LogisticRegression
     # Using undersampling to address class imbalance
     pipe = make_imb_pipeline(
-        RandomUnderSampler(),
+        RandomUnderSampler(random_state=21),
         OneHotEncoder(handle_unknown="ignore", sparse=False),
         LogisticRegression(max_iter=2000)
     )
@@ -81,7 +81,7 @@ def main(input, output):
 
     # Create optimized model
     imb_pipeline = make_imb_pipeline(
-        RandomUnderSampler(),
+        RandomUnderSampler(random_state=21),
         OneHotEncoder(handle_unknown="ignore", sparse=False),
         LogisticRegression(
             max_iter=2000,
