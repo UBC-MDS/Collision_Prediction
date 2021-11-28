@@ -80,18 +80,18 @@ def main(input, output):
     print("Best score: %0.3f" % (random_search.best_score_))
 
     # Create optimized model
-    model = make_imb_pipeline(
+    imb_pipeline = make_imb_pipeline(
         RandomUnderSampler(),
         OneHotEncoder(handle_unknown="ignore", sparse=False),
         LogisticRegression(
             max_iter=2000,
-            C = random_search.best_params_["logisticregression__C"]
+            C=random_search.best_params_["logisticregression__C"]
         )
     )
 
     # Determine cross-validation scores of optimized model
     results["Logistic Regression Optimized"] = mean_std_cross_val_scores(
-        model, X_train, y_train, return_train_score=True
+        imb_pipeline, X_train, y_train, return_train_score=True
     )
     result_df = pd.DataFrame(results)
 
