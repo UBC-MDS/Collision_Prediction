@@ -27,7 +27,7 @@ python src/clean_split_data.py --input=data/raw/NCDB_2017.csv --output=data/proc
 python src/eda.py --train=data/processed/NCDB_2017.csv --out_dir=results/figures/
 
 # create and tune model
-python model.py --input=data/processed/train.csv --output=results/
+python src/model.py --input=data/processed/train.csv --output=results/
 
 # select features
 
