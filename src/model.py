@@ -6,7 +6,7 @@ Usage: model.py --input=<input>  --output=<output>
  
 Options:
 --input=<input>       The path or filename pointing to the data
---output=<output>     The prefix where to write the output figure(s)/table(s) to and what to call it 
+--output=<output>     The prefix where to write the output figure(s)/table(s) to
 """
 
 import os
@@ -14,7 +14,6 @@ import pandas as pd
 from docopt import docopt
 
 import numpy as np
-import pandas as pd
 from sklearn.compose import ColumnTransformer, make_column_transformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import make_scorer
@@ -29,7 +28,6 @@ from imblearn.pipeline import make_pipeline as make_imb_pipeline
 from imblearn.under_sampling import RandomUnderSampler
 
 opt = docopt(__doc__)
-
 
 def main(input, output):
 
@@ -106,8 +104,10 @@ def main(input, output):
     )
 
     # Storing optimized model
-    pickle.dump(model, open(f"{output}lr_model.rds", "wb"))
+    pickle.dump(model, open(f"{output}final_model.rds", "wb"))
 
+    # Storing random search
+    pickle.dump(random_search, open(f"{output}random_search.rds", "wb"))
 
 # Function obtained from DSCI-571 lecture notes
 def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
