@@ -30,6 +30,7 @@ python src/eda.py --train=data/processed/train.csv --out_dir=results/figures/
 python src/model.py --input=data/processed/train.csv --output=results/
 
 # select features
+python src/feature_selection.py --input=data/processed/train.csv --output=results/
 
 # test model
 
