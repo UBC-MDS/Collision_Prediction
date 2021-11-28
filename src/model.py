@@ -31,12 +31,11 @@ import pickle
 
 opt = docopt(__doc__)
 
-def main(): 
+def main(input, output): 
     
     # Get data
-    input = opt["--input"]
-    train_df = pd.read_csv(f"{input}train.csv", low_memory=False)
-    test_df = pd.read_csv(f"{input}test.csv", low_memory=False)
+    train_df = pd.read_csv(f"{input}train.csv", low_memory=False).set_index("index").rename_axis(None)
+    test_df = pd.read_csv(f"{input}test.csv", low_memory=False).set_index("index").rename_axis(None)
     
     X_train = train_df.drop(columns=["FATALITY", "P_ISEV"])
     X_test = test_df.drop(columns=["FATALITY", "P_ISEV"])
@@ -111,14 +110,13 @@ def main():
     print("Best score: %0.3f" % (random_search.best_score_))
     
     # Create output tables/images
-    output = opt["--output"]
     save_df(result_df, "score_results")
     save_df(conf_mat, "confusion matrix")
     
     
     
     # Storing optimized model
-    pickle.dump(model, open(f"{input}lr_model.rds", "wb"))
+    pickle.dump(model, open(f"{output}lr_model.rds", "wb"))
     
 # Function obtained from DSCI-571 lecture notes
 def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
@@ -154,4 +152,4 @@ def save_df(df, name):
     df.to_pickle(f"{output}{name}.rds")    
     
 if __name__ == "__main__":
-    main() 
+    main(opt["--input"], opt["--output"]) 
