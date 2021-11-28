@@ -2,11 +2,13 @@
 title: "Predicting fatalities resulting from motor vehicle collisions"
 author: "MDS-2021-22 block3 group21"
 date: "25/11/2021"
-output: 
+output:
   html_document:
-    toc: true
+    toc: yes
   github_document:
-    toc: true
+    toc: yes
+  pdf_document:
+    toc: yes
 bibliography: collision_prediction_references.bib
 ---
 
@@ -26,14 +28,14 @@ scores_after_FS <- read_csv("../results/scores_after_FS.csv", show_col_types = F
 
 Stemming from the frequent news we come across on fatalities due to motor vehicle collisions, we thought about designing a model that would help predict whether a motor vehicle collision would result in a fatality or not. This lead to our predictive research question: "Will a motor vehicle collision result in fatalities?". Expanding upon this question, we also ask: "What are the major contributors that predict a fatal collision?" Through this predictive analysis we first aim to predict whether a collision would result in a fatality or not followed by determining what features are most important in making these predictions. Specifically, we want to know how important month, roadway configuration, weather condition, person age, and vehicle type are in predicting the severity of a motor vehicle collision.
 
-# Analysis
+# Methods
 ## Data
 The data set that will be used in this project has been sourced from the National Collision Database [@NCDB], published by Transport Canada. The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We will start off our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
 
 ## Model
 The Logistic Regression algorithm was used to build a classification model to predict whether a motor vehicle collision lead to a fatality or not. All variables included in the original data set, with the exception of "C_YEAR", "C_CASE", "C_SEV" were used to fit the model. The "P_ISEV" column served as the target column to be predicted. The hyperparameter's $C$ and $Gamma$ were chosen using 5-fold cross validation with random search `RandomizedSearchCV`. In order to tackle the issue of class imbalance, we performed random undersampling using `RandomUnderSampler`. This helped us in determining the Logistic Regression model with the best parameters. We further performed feature selection using `RandomUnderSampler`, `OneHotEncoder`, `RFECV`, and `LogisticRegression` model to reduce the number of features. The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: knitr [@knitr], docopt [@docoptpython], os [@Python], Pandas [@mckinney-proc-scipy-2010], scikit-learn [@scikit-learn], Altair [@altair], Vegalite [@vegalite]. The code used to perform the analysis and create this report can be found here: <https://github.com/UBC-MDS/Collision_Prediction>.
 
-# Results
+# Results & Discussion
 In order to determine how the distribution of the features differ between the two classes, we plotted bar charts to compare the distribution of all features between `Fatality = False` and `Fatality = True`. The associated data dictionary can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a/resource/09b74afc-2745-4382-8a02-3e256c4b28fd).
 
 ```{r, echo=FALSE, fig.cap="Figure 1. Distribution of features by Fatality",fig.show='hold',fig.align='center'}
@@ -41,8 +43,7 @@ knitr::include_graphics("../results/Distribution_of_no_fatality.png", dpi=100)
 knitr::include_graphics("../results/Distribution_of_fatality.png", dpi=100)
 ```
 
-# Conclusion
-Describe the conclusion
+We chose to apply a logistic regression model on the data set and ran hyper-parameter optimization to find the most optimized model; after that, we applied RFECV for feature selection.
 
 ```{r}
 scores <- score_results %>% 
@@ -62,5 +63,7 @@ scores_after_FS_updated <- scores_after_FS  %>%
 
 scores_after_FS_updated
 ```
+
+The model on test data achieved a high recall but low precision, which is expected because the data set has a large amount of false positives, thus the model cannot accurately predict fatalities. In the future, we could do more work to fix this problem: (1) Feature engineering: We can try PolynomialFeatures as the classes may not be linearly separable; (2) Changing the threshold: Generate ROC and Precision-Recall curves to determine if we can increase precision without sacrificing recall by changing the prediction threshold; (3) Trying a new model algorithm: The data may not be very linearly separable and so we could also try a different classification model such as decision tree or SVC.
 
 # References
