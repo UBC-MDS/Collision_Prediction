@@ -14,6 +14,10 @@ Options:
 import pandas as pd
 from docopt import docopt
 import pickle
+from imblearn.pipeline import make_pipeline as make_imb_pipeline
+from imblearn.under_sampling import RandomUnderSampler
+from sklearn.feature_selection import RFECV
+from sklearn.preprocessing import OneHotEncoder
 
 opt = docopt(__doc__)
 
@@ -34,6 +38,18 @@ def main(input, output):
 
     # Import pickle file
     lr_model = pickle.load(open(f"{output}lr_model.rds", "rb"))
+
+    # Feature Selection using RandomUnderSampler, OneHotEncoder, RFECV,
+    # and Logistic Regression model with best parameters
+    pipe_ohe_rfe_lr = make_imb_pipeline(
+        RandomUnderSampler(random_state=21),
+        OneHotEncoder(handle_unknown="ignore"),
+        RFECV(lr_model, cv=5),
+        lr_model
+    )
+
+    # Fitting the pipeline
+    pipe_ohe_rfe_lr.fit(X_train, y_train)
 
 
 if __name__ == "__main__":
