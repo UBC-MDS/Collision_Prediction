@@ -41,7 +41,7 @@ def main(input, output):
     y_test = test_df["FATALITY"]
     
     # Get optimized model
-    model = pickle.load(open(f"{input}final_model.rds", "rb"))
+    model = pickle.load(open(f"{input}lr_model.rds", "rb"))
     model.fit(X_train, y_train)
     
     # Get cross-validation scores
@@ -58,16 +58,6 @@ def main(input, output):
         scoring = scoring
     )
 
-    # Get classification report on test data
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-    class_rpt = classification_report(
-        y_test, 
-        y_pred, 
-        target_names=["False", "True"], 
-        output_dict=True
-    )
-    class_rpt = pd.DataFrame(class_rpt)
     
     # Get top coefficients
     random_search = pickle.load(open(f"{input}random_search.rds", "rb"))
@@ -83,9 +73,6 @@ def main(input, output):
     
     # Save cross-validation scores
     save_df(cv_scores, "optimized_cv_scores", output)
-    
-    # Save classification report
-    save_df(class_rpt, "classification_rpt", output)
     
     # Save coefficient tables
     save_df(coeff_full, "coeff_fulls", output)
