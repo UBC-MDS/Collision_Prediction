@@ -46,16 +46,15 @@ if __name__ == "__main__":
             x=alt.X(alt.repeat("row"), type="quantitative"),
             y=alt.Y("count()", title="Number of collisions"),
             color=alt.Color("FATALITY", scale=alt.Scale(range=["blue"]), legend=None))
-        .properties(width=150, height=150)
+        .properties(width=150, height=100)
         .repeat(
             row=features,
-            columns=1,
             title="FATALITY = False")
         .resolve_scale(y="independent")
         .transform_filter(alt.FieldOneOfPredicate(field="FATALITY", oneOf=[False]))
     )
     
-    Chart_False.save(f"{save_path}/Distribution_of_no_fatality.png")
+    Chart_False.save(f"{save_path}Distribution_of_no_fatality.png")
     
     # Creates and saves distribution plots when Fatality = True
     Chart_True = (
@@ -65,16 +64,15 @@ if __name__ == "__main__":
             x=alt.X(alt.repeat("row"), type="quantitative"),
             y=alt.Y("count()", title="Number of collisions"),
             color=alt.Color("FATALITY", scale=alt.Scale(range=["green"]), legend=None))
-        .properties(width=150, height=150)
+        .properties(width=150, height=100)
         .repeat(
             row=features,
-            columns=1,
             title="FATALITY = True")
         .resolve_scale(y="independent")
         .transform_filter(alt.FieldOneOfPredicate(field="FATALITY", oneOf=[True]))
     )
     
-    Chart_True.save(f"{save_path}/Distribution_of_fatality.png")
+    Chart_True.save(f"{save_path}Distribution_of_fatality.png")
 
 
 
