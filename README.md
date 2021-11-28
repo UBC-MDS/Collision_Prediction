@@ -35,7 +35,7 @@ python src/feature_selection.py --input=data/processed/train.csv --output=result
 # test model
 
 # render final report
-
+Rscript -e "rmarkdown::render('doc/collision_prediction_report.Rmd')"
 ```
 
 ## Dependencies
