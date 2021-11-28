@@ -18,7 +18,8 @@ library(tidyverse)
 ```
 
 ```{r load model results}
-final_model_scores <- read_csv("../results/scores_test2.csv", show_col_types = FALSE)
+score_results <- read_csv("../results/score_results.csv", show_col_types = FALSE)
+scores_after_FS <- read_csv("../results/scores_after_FS.csv", show_col_types = FALSE)
 ```
 
 # Introduction
@@ -44,18 +45,22 @@ knitr::include_graphics("../results/Distribution_of_fatality.png", dpi=100)
 Describe the conclusion
 
 ```{r}
-score_results = read_csv("../results/score_results.csv", show_col_types = FALSE)
-
 scores <- score_results %>% 
-  mutate(score_type = scoring_metric,
-         lr_model = `Logistic Regression`,
+  mutate(lr_model = `Logistic Regression`,
          lr_model_optimized = `Logistic Regression Optimized`) %>%
   select(score_type, lr_model, lr_model_optimized) %>%
   kbl(caption = "Table 1. Scores from the Logistic Regression model before and after optimization") %>%
-  kable_styling(c("striped", "hover"))
+  kable_styling(c("striped", "hover"), full_width = F)
 
 scores
 ```
 
+```{r}
+scores_after_FS_updated <- scores_after_FS  %>%
+  kbl(caption = "Table 2. Scores from the Logistic Regression model after feature selection using RFECV") %>%
+  kable_styling(c("striped", "hover"), full_width = F)
+
+scores_after_FS_updated
+```
 
 # References
