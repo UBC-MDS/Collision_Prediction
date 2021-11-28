@@ -62,6 +62,13 @@ def main(input, output):
 
     scores = pd.DataFrame(score_dict)
 
+    # Create output tables/images
+    save_df(scores, "scores_after_FS", output)
+
+
+def save_df(df, name, output):
+    df.to_pickle(f"{output}{name}.rds")
+
 
 if __name__ == "__main__":
     main(opt["--input"], opt["--output"])
