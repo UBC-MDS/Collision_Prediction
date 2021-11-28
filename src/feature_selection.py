@@ -13,12 +13,13 @@ Options:
 # Import libraries
 import pandas as pd
 from docopt import docopt
+import pickle
 
 opt = docopt(__doc__)
 
 
 # Feature Selection function
-def main(input):
+def main(input, output):
 
     # Import processed train data
     train_df = (
@@ -31,6 +32,9 @@ def main(input):
     X_train = train_df.drop(columns=["FATALITY"])
     y_train = train_df["FATALITY"]
 
+    # Import pickle file
+    lr_model = pickle.load(open(f"{output}lr_model.rds", "rb"))
+
 
 if __name__ == "__main__":
-    main(opt["--input"])
+    main(opt["--input"], opt["--output"])
