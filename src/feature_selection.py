@@ -68,6 +68,9 @@ def main(input, output):
     # Create output tables/images
     save_df(scores, "scores_after_FS", output)
 
+    # Print model accuracy
+    print("Model accuracy after feature selection:", scores.iloc[0, 0])
+
 
 def save_df(df, name, output):
     df.to_pickle(f"{output}{name}.rds")
