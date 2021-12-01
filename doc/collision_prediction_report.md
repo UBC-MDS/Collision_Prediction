@@ -47,20 +47,7 @@ summary(cars)
 
 ## The Analysis
 
-With the research question in mind, we begin our analysis by first
-separating the data into a training set and test set (split 90:10). On
-the training set we will perform EDA to assess the presence or absence
-of class imbalance, determine what sort of preprocessing is required,
-and to discern which features may be most important for prediction. The
-class imbalance will be assessed by presenting the class counts as a
-table. To determine the necessary preprocessing transformations, we will
-include a pandas.DataFrame.info table which presents the data types and
-amount of missing values. Additionally, we will include a
-pandas.DataFrame.describe table to obtain informative descriptive
-statistics such as the central tendency, spread, and shape of the
-training set. To discern important features for prediction we will plot
-histograms presenting the distribution of each numeric feature in the
-dataset facetted on the target classes in our EDA.
+The Logistic Regression algorithm was used to build a classification model to predict whether a motor vehicle collision leads to a fatality or not. All variables included in the original data set, with the exception of "C_YEAR", "C_CASE", "C_SEV", "P_ISEV", "V_ID", and "P_ID" were used to fit the model, as these features were either irrelevant to our prediction or contained redundant information. The "FATALITY" column was created using the "P_ISEV" by converting values that correspond to a fatality as "True", and converting values that correspond to an injury or no injury as "False". The "FATALITY" column served as the target column to be predicted. In order to tackle the issue of class imbalance and to perform cross-validations in feasible times with our available computing power, we performed random undersampling using `RandomUnderSampler`. Since all features were categorical, our pipeline consisted of the `RandomUnderSampler`, a `OneHotEncoder`, and the `LogisticRegression` model. We determined the optimal value of the logistic regression model's hyperparameter, $C$, using 5-fold cross validation with random search `RandomizedSearchCV`. We further performed feature selection using `RandomUnderSampler`, `OneHotEncoder`, `RFECV`, and `LogisticRegression` model to reduce the number of features. The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: knitr [@knitr], docopt [@docoptpython], os [@Python], Pandas [@mckinney-proc-scipy-2010], scikit-learn [@scikit-learn], imbalance-learn [@Imbalance-learn], Altair [@altair], Vegalite [@vegalite]. The code used to perform the analysis and create this report can be found here: https://github.com/UBC-MDS/Collision_Prediction.
 
 ## The Results
 
