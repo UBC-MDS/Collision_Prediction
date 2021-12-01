@@ -32,8 +32,8 @@ Stemming from the frequent news we come across on fatalities due to motor vehicl
 ## Data
 The data set that will be used in this project has been sourced from the National Collision Database [@NCDB], published by Transport Canada. The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We will start off our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
 
-## Analysis
-The Logistic Regression algorithm was used to build a classification model to predict whether a motor vehicle collision leads to a fatality or not. All variables included in the original data set, with the exception of "C_YEAR", "C_CASE", "C_SEV", "P_ISEV", "V_ID", and "P_ID" were used to fit the model, as these features were either irrelevant to our prediction or contained redundant information. The "FATALITY" column was created using the "P_ISEV" by converting values that correspond to a fatality as "True", and converting values that correspond to an injury or no injury as "False". The "FATALITY" column served as the target column to be predicted. In order to tackle the issue of class imbalance and to perform cross-validations in feasible times with our available computing power, we performed random undersampling using `RandomUnderSampler`. Since all features were categorical, our pipeline consisted of the `RandomUnderSampler`, a `OneHotEncoder`, and the `LogisticRegression` model. We determined the optimal value of the logistic regression model's hyperparameter, $C$, using 5-fold cross validation with random search `RandomizedSearchCV`. We further performed feature selection using `RandomUnderSampler`, `OneHotEncoder`, `RFECV`, and `LogisticRegression` model to reduce the number of features. The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: knitr [@knitr], docopt [@docoptpython], os [@Python], Pandas [@mckinney-proc-scipy-2010], scikit-learn [@scikit-learn], imbalance-learn [@Imbalance-learn], Altair [@altair], Vegalite [@vegalite]. The code used to perform the analysis and create this report can be found here: https://github.com/UBC-MDS/Collision_Prediction.
+## Model
+The Logistic Regression algorithm was used to build a classification model to predict whether a motor vehicle collision leads to a fatality or not. All variables included in the original data set, with the exception of “C_YEAR”, “C_CASE”, “C_SEV”, “P_ISEV”, “V_ID”, and “P_ID” were used to fit the model, as these features were either irrelevant to our prediction or contained redundant information. The “FATALITY” column was created using the “P_ISEV” by converting values that correspond to a fatality as “True”, and converting values that correspond to an injury or no injury as “False”. The “FATALITY” column served as the target column to be predicted. In order to tackle the issue of class imbalance and to perform cross-validations in feasible times with our available computing power, we performed random undersampling using RandomUnderSampler. Since all features were categorical, our pipeline consisted of the RandomUnderSampler, a OneHotEncoder, and the LogisticRegression model. We determined the optimal value of the logistic regression model’s hyperparameter, $C$, using 5-fold cross validation with random search RandomizedSearchCV. We further performed feature selection using RandomUnderSampler, OneHotEncoder, RFECV, and LogisticRegression model to reduce the number of features. The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: knitr [@knitr], docopt [@docoptpython], os [@Python], Pandas [@mckinney-proc-scipy-2010], scikit-learn [@scikit-learn], imbalance-learn [@Imbalance-learn], Altair [@altair], Vegalite [@vegalite]. The code used to perform the analysis and create this report can be found here: https://github.com/UBC-MDS/Collision_Prediction.
 
 # Results & Discussion
 In order to determine how the distribution of the features differ between the two classes, we plotted bar charts to compare the distribution of all features between `Fatality = False` and `Fatality = True`. The associated data dictionary can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a/resource/09b74afc-2745-4382-8a02-3e256c4b28fd).
@@ -52,7 +52,6 @@ scores <- score_results %>%
   select(score_type, lr_model, lr_model_optimized) %>%
   kbl(caption = "Table 1. Scores from the Logistic Regression model before and after optimization") %>%
   kable_styling(c("striped", "hover"), full_width = F)
-
 scores
 ```
 
@@ -60,7 +59,6 @@ scores
 scores_after_FS_updated <- scores_after_FS  %>%
   kbl(caption = "Table 2. Scores from the Logistic Regression model after feature selection using RFECV") %>%
   kable_styling(c("striped", "hover"), full_width = F)
-
 scores_after_FS_updated
 ```
 
