@@ -4,13 +4,13 @@
 
 ## About
 
-In this project we build a classification model to attempt to answer the predictive research question, "Will a motor vehicle collision result in fatalities?" EXPLAIN RESULTS
+In this project we build a classification model to attempt to answer the predictive research question, "Will a motor vehicle collision result in fatalities?"
 
 The data set that was used in this project came from the National Collision Database, published by Transport Canada, which can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a). The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We ran our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
 
 ## Report
 
-The final report can be found [here]("")
+The final report can be found [here](https://github.com/UBC-MDS/Collision_Prediction/blob/main/doc/collision_prediction_report.md).
 
 ## Usage
 
