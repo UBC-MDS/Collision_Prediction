@@ -10,7 +10,7 @@ The data set that was used in this project came from the National Collision Data
 
 ## Report
 
-The final report can be found [here](https://github.com/SiqiTao/Collision_Prediction/blob/main/doc/collision_prediction_report.md).
+The final report can be found [here](https://github.com/UBC-MDS/Collision_Prediction/blob/main/doc/collision_prediction_report.md).
 
 ## Usage
 
