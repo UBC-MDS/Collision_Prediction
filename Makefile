@@ -17,3 +17,7 @@ results/Distribution_of_no_fatality.png results/Distribution_of_fatality.png : s
 # create and tune model
 results/lr_model.rds results/score_results.csv : src/model.py data/processed/train.csv
 	python src/model.py --input=data/processed/train.csv --output=results/
+
+# feature selection
+results/final_model.rds results/score_after_FS.csv : src/feature_selection.py data/processed/train.csv
+	python src/feature_selection.py --input=data/processed/train.csv --output=results/
