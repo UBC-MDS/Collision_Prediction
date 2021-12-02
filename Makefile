@@ -21,3 +21,7 @@ results/lr_model.rds results/score_results.csv : src/model.py data/processed/tra
 # feature selection
 results/final_model.rds results/score_after_FS.csv : src/feature_selection.py data/processed/train.csv
 	python src/feature_selection.py --input=data/processed/train.csv --output=results/
+
+# score test data
+results/test_scores.csv results/test_confusion_matrix.csv : results/final_model.rds data/processed/test.csv
+	python src/score.py --input=data/processed/ --output=results/
