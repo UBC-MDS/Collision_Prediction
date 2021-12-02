@@ -9,29 +9,18 @@ Options:
 --output=<output>     The prefix where to write the output figure(s)/table(s) to 
 """
 
-import os
 import pandas as pd
 from docopt import docopt
 import pickle
-
-import numpy as np
-from sklearn.metrics import make_scorer
-from sklearn.model_selection import RandomizedSearchCV, cross_val_score, cross_validate, cross_val_predict
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import confusion_matrix
 
 opt = docopt(__doc__)
 
 def main(input, output):
+    # Get optimized model
+    model = pickle.load(open(f"{output}final_model.rds", "rb"))
     
-    # Get data
-    train_df = (
-        pd.read_csv(f"{input}train.csv", low_memory=False)
-        .set_index("index")
-        .rename_axis(None)
-    )
-    X_train = train_df.drop(columns=["FATALITY"])
-    y_train = train_df["FATALITY"]
-    
+    # Get test data
     test_df = (
         pd.read_csv(f"{input}test.csv", low_memory=False)
         .set_index("index")
@@ -40,45 +29,31 @@ def main(input, output):
     X_test = test_df.drop(columns=["FATALITY"])
     y_test = test_df["FATALITY"]
     
-    # Get optimized model
-    model = pickle.load(open(f"{input}final_model.rds", "rb"))
-    model.fit(X_train, y_train)
-    
-    # Get scores
+    # Score the test data
     scores = {
         "test_score": [model.score(X_test, y_test)]
     }
     scores = pd.DataFrame(scores)
     
-    # Get confusion matrix
+    # Save test scores
+    scores.to_csv(f"{output}test_scores.csv", index=False)
+
+
+    # Generate the confusion matrix on test data
     conf_mat = confusion_matrix(
         y_test, 
         model.predict(X_test)
     )
-    
-    # Get classification report on test data
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-    class_rpt = classification_report(
-        y_test, 
-        y_pred, 
-        target_names=["False", "True"], 
-        output_dict=True
-    )
-    class_rpt = pd.DataFrame(class_rpt)
-    
-    # Save test scores
-    save_df(scores, "scores", output)
+    conf_mat = pd.DataFrame(conf_mat, columns=["non_fatal", "fatal"])
+    conf_mat = conf_mat.assign(actuals=["non_fatal", "fatal"])
+    conf_mat = conf_mat.set_index('actuals')
     
     # Save confusion matrix
-    save_df(conf_mat, "confusion_matrix", output)
-    
-    # Save classification report
-    save_df(class_rpt, "classification_rpt", output)
+    save_df(conf_mat, "test_confusion_matrix", output)
 
-# Helper funciton for saving dataframes
+# Helper function for saving dataframes
 def save_df(df, name, output):
-    df.to_pickle(f"{output}{name}.rds")
+    df.to_csv(f"{output}{name}.csv")
     
     
 if __name__ == "__main__":
