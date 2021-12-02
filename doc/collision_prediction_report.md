@@ -3,12 +3,68 @@ Predicting fatalities resulting from motor vehicle collisions
 MDS-2021-22 block3 group21
 25/11/2021
 
+-   [Summary](#summary)
 -   [Introduction](#introduction)
 -   [Methods](#methods)
     -   [Data](#data)
     -   [Model](#model)
 -   [Results & Discussion](#results--discussion)
 -   [References](#references)
+
+# Summary
+
+We attempted to build a classification model using Logistic Regression,
+which leverages the national collision database of Canada for 2017 to
+predict whether a collision would result in a fatality or not. The final
+model returned an accuracy score of 0.799 on the test data, however, it
+achieved a high recall score: 0.739 but a low precision score: 0.022,
+which is expected because the data set has a large amount of false
+positives and, therefore, the model cannot accurately predict
+fatalities. Thus, we recommend reviewing and improving this prediction
+model to make better predictions.
+
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Table 1. Confusion Matrix on the Test data
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+actuals
+</th>
+<th style="text-align:right;">
+non_fatal
+</th>
+<th style="text-align:right;">
+fatal
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+non_fatal
+</td>
+<td style="text-align:right;">
+23029
+</td>
+<td style="text-align:right;">
+5780
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+fatal
+</td>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+130
+</td>
+</tr>
+</tbody>
+</table>
 
 # Introduction
 
@@ -76,7 +132,7 @@ that, we applied RFECV for feature selection.
 
 <table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Table 1. Scores from the Logistic Regression model before and after
+Table 2. Scores from the Logistic Regression model before and after
 optimization
 </caption>
 <thead>
@@ -98,10 +154,10 @@ lr_model_optimized
 fit_time
 </td>
 <td style="text-align:left;">
-0.215 (+/- 0.107)
+0.165 (+/- 0.023)
 </td>
 <td style="text-align:left;">
-0.151 (+/- 0.020)
+0.150 (+/- 0.016)
 </td>
 </tr>
 <tr>
@@ -109,10 +165,10 @@ fit_time
 score_time
 </td>
 <td style="text-align:left;">
-0.373 (+/- 0.070)
+0.339 (+/- 0.006)
 </td>
 <td style="text-align:left;">
-0.405 (+/- 0.051)
+0.373 (+/- 0.012)
 </td>
 </tr>
 <tr>
@@ -141,8 +197,7 @@ train_score
 </table>
 <table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Table 2. Scores from the Logistic Regression model after feature
-selection using RFECV
+Table 3. Scores from the final Logistic Regression model
 </caption>
 <thead>
 <tr>
@@ -150,7 +205,7 @@ selection using RFECV
 scoring_metric
 </th>
 <th style="text-align:right;">
-LR_after_Feature_Selection
+LR after Feature Selection
 </th>
 </tr>
 </thead>
@@ -189,17 +244,57 @@ recall
 </tr>
 </tbody>
 </table>
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Table 4. Confusion Matrix from the final Logistic Regression model
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+actuals
+</th>
+<th style="text-align:right;">
+non_fatal
+</th>
+<th style="text-align:right;">
+fatal
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+non_fatal
+</td>
+<td style="text-align:right;">
+206854
+</td>
+<td style="text-align:right;">
+52322
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+fatal
+</td>
+<td style="text-align:right;">
+306
+</td>
+<td style="text-align:right;">
+1374
+</td>
+</tr>
+</tbody>
+</table>
 
-The model on test data achieved a high recall but low precision, which
-is expected because the data set has a large amount of false positives,
-thus the model cannot accurately predict fatalities. In the future, we
-could do more work to fix this problem: (1) Feature engineering: We can
-try PolynomialFeatures as the classes may not be linearly separable; (2)
-Changing the threshold: Generate ROC and Precision-Recall curves to
-determine if we can increase precision without sacrificing recall by
-changing the prediction threshold; (3) Trying a new model algorithm: The
-data may not be very linearly separable and so we could also try a
-different classification model such as decision tree or SVC.
+In the future, we could do more work to fix this problem: (1) Feature
+engineering: We can try `PolynomialFeatures` as the classes may not be
+linearly separable; (2) Changing the threshold: Generate ROC and
+Precision-Recall curves to determine if we can increase precision
+without sacrificing recall by changing the prediction threshold; (3)
+Trying a new model algorithm: The data may not be very linearly
+separable and so we could also try a different classification model such
+as decision tree or SVC.
 
 # References
 
