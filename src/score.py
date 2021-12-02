@@ -9,15 +9,10 @@ Options:
 --output=<output>     The prefix where to write the output figure(s)/table(s) to 
 """
 
-import os
 import pandas as pd
 from docopt import docopt
 import pickle
-
-import numpy as np
-from sklearn.metrics import make_scorer
-from sklearn.model_selection import RandomizedSearchCV, cross_val_score, cross_validate, cross_val_predict
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import confusion_matrix
 
 opt = docopt(__doc__)
 
@@ -40,15 +35,18 @@ def main(input, output):
     }
     scores = pd.DataFrame(scores)
     
+    # Save test scores
+    scores.to_csv(f"{output}test_scores.csv", index=False)
+
+
     # Generate the confusion matrix on test data
     conf_mat = confusion_matrix(
         y_test, 
         model.predict(X_test)
     )
-    conf_mat = pd.DataFrame(conf_mat)
-    
-    # Save test scores
-    save_df(scores, "test_scores", output)
+    conf_mat = pd.DataFrame(conf_mat, columns=["non_fatal", "fatal"])
+    conf_mat = conf_mat.assign(actuals=["non_fatal", "fatal"])
+    conf_mat = conf_mat.set_index('actuals')
     
     # Save confusion matrix
     save_df(conf_mat, "test_confusion_matrix", output)
