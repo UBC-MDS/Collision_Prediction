@@ -113,7 +113,7 @@ def main(input, output):
     result_df.index.name = "Scoring Metric"
 
     # Create output table
-    result_df.to_csv(f"{output}score_results.csv")
+    result_df.to_csv(f"{output}CV_results.csv")
 
     # Creating the best model
     model = LogisticRegression(
