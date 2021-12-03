@@ -18,12 +18,18 @@ opt = docopt(__doc__)
 
 def main(url, filepath):
     data = pd.read_csv(url, header=None)
+    
+    # Test if we have the given filepath in the directory, if not, create one.
     try:
         data.to_csv(filepath, index=False)
     except:
         os.makedirs(os.path.dirname(filepath))
         data.to_csv(filepath, index=False)
 
-
+# Test input data type
+assert type(opt["--url"]) == str, "The data type of url should be string."
+assert type(opt["--filepath"]) == str, "The data type of url should be string."
+        
 if __name__ == "__main__":
     main(opt["--url"], opt["--filepath"])
+    

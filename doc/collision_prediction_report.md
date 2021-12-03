@@ -16,7 +16,7 @@ MDS-2021-22 block3 group21
 We attempted to build a classification model using Logistic Regression,
 which leverages the national collision database of Canada for 2017 to
 predict whether a collision would result in a fatality or not. The final
-model returned an accuracy score of 0.799 on the test data, however, it
+model returned an accuracy score of 0.8 on the test data, however, it
 achieved a high recall score: 0.739 but a low precision score: 0.022,
 which is expected because the data set has a large amount of false
 positives and, therefore, the model cannot accurately predict
@@ -46,10 +46,10 @@ fatal
 non_fatal
 </td>
 <td style="text-align:right;">
-23029
+23071
 </td>
 <td style="text-align:right;">
-5780
+5738
 </td>
 </tr>
 <tr>
@@ -154,10 +154,10 @@ lr_model_optimized
 fit_time
 </td>
 <td style="text-align:left;">
-0.165 (+/- 0.023)
+0.216 (+/- 0.038)
 </td>
 <td style="text-align:left;">
-0.150 (+/- 0.016)
+0.168 (+/- 0.025)
 </td>
 </tr>
 <tr>
@@ -165,10 +165,10 @@ fit_time
 score_time
 </td>
 <td style="text-align:left;">
-0.339 (+/- 0.006)
+0.369 (+/- 0.014)
 </td>
 <td style="text-align:left;">
-0.373 (+/- 0.012)
+0.373 (+/- 0.021)
 </td>
 </tr>
 <tr>
@@ -187,7 +187,7 @@ test_score
 train_score
 </td>
 <td style="text-align:left;">
-0.793 (+/- 0.005)
+0.792 (+/- 0.005)
 </td>
 <td style="text-align:left;">
 0.796 (+/- 0.006)
@@ -215,7 +215,7 @@ LR after Feature Selection
 accuracy
 </td>
 <td style="text-align:right;">
-0.7982488
+0.7990194
 </td>
 </tr>
 <tr>
@@ -223,7 +223,7 @@ accuracy
 f1
 </td>
 <td style="text-align:right;">
-0.0496244
+0.0499085
 </td>
 </tr>
 <tr>
@@ -231,7 +231,7 @@ f1
 precision
 </td>
 <td style="text-align:right;">
-0.0255885
+0.0257378
 </td>
 </tr>
 <tr>
@@ -239,7 +239,7 @@ precision
 recall
 </td>
 <td style="text-align:right;">
-0.8178571
+0.8196429
 </td>
 </tr>
 </tbody>
@@ -267,10 +267,10 @@ fatal
 non_fatal
 </td>
 <td style="text-align:right;">
-206854
+207052
 </td>
 <td style="text-align:right;">
-52322
+52124
 </td>
 </tr>
 <tr>
@@ -278,10 +278,10 @@ non_fatal
 fatal
 </td>
 <td style="text-align:right;">
-306
+303
 </td>
 <td style="text-align:right;">
-1374
+1377
 </td>
 </tr>
 </tbody>
