@@ -47,6 +47,7 @@ def main(input, output):
     scores = pd.DataFrame(scores, index=["test_scores"])
 
     final_results = results_df.append(scores)
+    final_results = final_results.rename_axis("score")
     
     # Save test scores with training scores
     save_df(final_results, "final_scores", output)
