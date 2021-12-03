@@ -29,6 +29,11 @@ def main(input, output):
     X_test = test_df.drop(columns=["FATALITY"])
     y_test = test_df["FATALITY"]
     
+    # Import training scores df
+    results_df = (
+        pd.read_csv(f"{output}final_training_scores.csv", index_col=0)
+    )
+
     # Create list of desired scoring metrics
     scoring_metrics = ["accuracy", "f1", "recall", "precision", "average_precision"]
 
@@ -39,11 +44,12 @@ def main(input, output):
         ] for scorer in scoring_metrics
     }
 
-    scores = pd.DataFrame(scores, index=["score"])
-    
-    # Save test scores
-    scores.to_csv(f"{output}test_scores.csv", index=False)
+    scores = pd.DataFrame(scores, index=["test_scores"])
 
+    final_results = results_df.append(scores)
+    
+    # Save test scores with training scores
+    save_df(final_results, "final_scores", output)
 
     # Generate the confusion matrix on test data
     conf_mat = confusion_matrix(
