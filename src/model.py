@@ -113,7 +113,7 @@ def main(input, output):
     result_df.index.name = "Scoring Metric"
 
     # Create output table
-    result_df.to_csv(f"{output}/score_results.csv")
+    result_df.to_csv(f"{output}score_results.csv")
 
     # Creating the best model
     model = LogisticRegression(
@@ -122,7 +122,7 @@ def main(input, output):
     )
 
     # Storing optimized model
-    pickle.dump(model, open(f"{output}/lr_model.rds", "wb"))
+    pickle.dump(model, open(f"{output}lr_model.rds", "wb"))
 
 
 # Function obtained from DSCI-571 lecture notes
