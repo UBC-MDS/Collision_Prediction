@@ -4,7 +4,16 @@
 
 ## About
 
-In this project we build a classification model to attempt to answer the predictive research question, "Will a motor vehicle collision result in fatalities?"
+In this project we attempt to build a classification model using the
+logistic regression algorithm and data obtained from police-reported
+motor vehicle collisions on public roads in Canada to predict whether a
+collision would result in a fatality or not. The final model performed
+poorly on both the training set and the test set, returning a high
+recall of 0.698, but a very low precision of 0.048, resulting in a low
+f1-score of 0.09. The impact of the low precision can be seen in the
+results of the prediction of the test set, where the model incorrectly
+predicts fatalities around 20 times more than it correctly predicts
+fatalities.
 
 The data set that was used in this project came from the National Collision Database, published by Transport Canada, which can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a). The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We ran our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
 
