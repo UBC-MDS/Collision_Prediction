@@ -24,7 +24,7 @@ python src/download_data.py --url="https://opendatatc.blob.core.windows.net/open
 python src/clean_split_data.py --input=data/raw/NCDB_2017.csv --output=data/processed/
 
 # run eda report
-python src/eda.py --train=data/processed/train.csv --out_dir=results/figures/
+python src/eda.py --train=data/processed/train.csv --out_dir=results/
 
 # create and tune model
 python src/model.py --input=data/processed/train.csv --output=results/

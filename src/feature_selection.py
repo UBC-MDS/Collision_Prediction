@@ -18,7 +18,7 @@ from imblearn.pipeline import make_pipeline as make_imb_pipeline
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.feature_selection import RFECV
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.metrics import get_scorer
+from sklearn.metrics import get_scorer, confusion_matrix
 
 opt = docopt(__doc__)
 
@@ -66,12 +66,28 @@ def main(input, output):
     scores = pd.DataFrame(score_dict)
     scores.index.name = "scoring_metric"
 
-    # Create output tables
-    scores.to_csv("results/scores_after_FS.csv")
+    # Save scores table
+    save_df(scores, "scores_after_FS", output)
+
+    # Generate the confusion matrix
+    conf_mat = confusion_matrix(
+        y_train, 
+        final_model.predict(X_train),
+        labels=[False, True]
+    )
+    conf_mat = pd.DataFrame(conf_mat, columns=["non_fatal", "fatal"])
+    conf_mat = conf_mat.assign(actuals=["non_fatal", "fatal"])
+    conf_mat = conf_mat.set_index('actuals')
+
+    # Save confusion matrix
+    save_df(conf_mat, "train_confusion_matrix", output)
 
     # Print model accuracy
     print("Model accuracy after feature selection:", scores.iloc[0, 0])
 
+# Helper function for saving dataframes
+def save_df(df, name, output):
+    df.to_csv(f"{output}{name}.csv")
 
 if __name__ == "__main__":
     main(opt["--input"], opt["--output"])

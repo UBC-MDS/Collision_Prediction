@@ -7,8 +7,7 @@ output:
     toc: yes
   github_document:
     toc: yes
-  pdf_document:
-    toc: yes
+always_allow_html: true
 bibliography: collision_prediction_references.bib
 ---
 
@@ -21,7 +20,22 @@ library(tidyverse)
 
 ```{r load model results}
 score_results <- read_csv("../results/score_results.csv", show_col_types = FALSE)
+train_cm <- read_csv("../results/train_confusion_matrix.csv", show_col_types = FALSE)
 scores_after_FS <- read_csv("../results/scores_after_FS.csv", show_col_types = FALSE)
+test_cm <- read_csv("../results/test_confusion_matrix.csv", show_col_types = FALSE)
+test_scores <- read_csv("../results/test_scores.csv", show_col_types = FALSE)
+```
+
+# Summary
+
+We attempted to build a classification model using Logistic Regression, which leverages the national collision database of Canada for 2017 to predict whether a collision would result in a fatality or not. The final model returned an accuracy score of `r round(test_scores$test_score[1], 3)` on the test data, however, it achieved a high recall score: `r round(test_cm$fatal[2]/(test_cm$fatal[2] + test_cm$non_fatal[2]), 3)` but a low precision score: `r round(test_cm$fatal[2]/(test_cm$fatal[2] + test_cm$fatal[1]), 3)`, which is expected because the data set has a large amount of false positives and, therefore, the model cannot accurately predict fatalities. Thus, we recommend reviewing and improving this prediction model to make better predictions.
+
+```{r}
+test_cm <- test_cm  %>%
+  kbl(caption = "Table 1. Confusion Matrix on the Test data") %>%
+  kable_styling(c("striped", "hover"), full_width = F)
+
+test_cm
 ```
 
 # Introduction
@@ -50,7 +64,7 @@ scores <- score_results %>%
   mutate(lr_model = `Logistic Regression`,
          lr_model_optimized = `Logistic Regression Optimized`) %>%
   select(score_type, lr_model, lr_model_optimized) %>%
-  kbl(caption = "Table 1. Scores from the Logistic Regression model before and after optimization") %>%
+  kbl(caption = "Table 2. Scores from the Logistic Regression model before and after optimization") %>%
   kable_styling(c("striped", "hover"), full_width = F)
 
 scores
@@ -58,12 +72,20 @@ scores
 
 ```{r}
 scores_after_FS_updated <- scores_after_FS  %>%
-  kbl(caption = "Table 2. Scores from the Logistic Regression model after feature selection using RFECV") %>%
+  kbl(caption = "Table 3. Scores from the final Logistic Regression model") %>%
   kable_styling(c("striped", "hover"), full_width = F)
 
 scores_after_FS_updated
 ```
 
-The model on test data achieved a high recall but low precision, which is expected because the data set has a large amount of false positives, thus the model cannot accurately predict fatalities. In the future, we could do more work to fix this problem: (1) Feature engineering: We can try PolynomialFeatures as the classes may not be linearly separable; (2) Changing the threshold: Generate ROC and Precision-Recall curves to determine if we can increase precision without sacrificing recall by changing the prediction threshold; (3) Trying a new model algorithm: The data may not be very linearly separable and so we could also try a different classification model such as decision tree or SVC.
+```{r}
+train_cm <- train_cm  %>%
+  kbl(caption = "Table 4. Confusion Matrix from the final Logistic Regression model") %>%
+  kable_styling(c("striped", "hover"), full_width = F)
+
+train_cm
+```
+
+In the future, we could do more work to fix this problem: (1) Feature engineering: We can try `PolynomialFeatures` as the classes may not be linearly separable; (2) Changing the threshold: Generate ROC and Precision-Recall curves to determine if we can increase precision without sacrificing recall by changing the prediction threshold; (3) Trying a new model algorithm: The data may not be very linearly separable and so we could also try a different classification model such as decision tree or SVC.
 
 # References
