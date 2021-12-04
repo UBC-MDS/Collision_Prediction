@@ -3,9 +3,9 @@ title: "Predicting fatalities resulting from motor vehicle collisions"
 author: "MDS-2021-22 block3 group21"
 date: "25/11/2021"
 output:
-  html_document:
-    toc: yes
   github_document:
+    toc: yes
+  html_document:
     toc: yes
 always_allow_html: true
 bibliography: collision_prediction_references.bib
