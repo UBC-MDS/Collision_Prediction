@@ -1,6 +1,6 @@
 Predicting fatalities resulting from motor vehicle collisions
 ================
-MDS-2021-22 block3 group21
+MDS-2021-22 Block 3 Group 21
 25/11/2021
 
 -   [Summary](#summary)
@@ -59,26 +59,25 @@ exception of “C_YEAR”, “C_CASE”, “C_SEV”, “P_ISEV”, “V_ID”, 
 were used to fit the model, as these features were either irrelevant to
 our prediction or contained redundant information. The “FATALITY” column
 was created using the feature “C_SEV” by converting values that
-correspond to at least one fatality as “True”, and converting values
-that correspond to an injury or no injury as “False”. The “FATALITY”
-column served as the target column to be predicted. In order to tackle
-the issue of class imbalance and to perform cross-validations in
-feasible times with our available computing power, we performed random
-undersampling using `RandomUnderSampler`. Since all features were
-categorical, our pipeline consisted of the `RandomUnderSampler`, a
-`OneHotEncoder`, and the `LogisticRegression` model. We determined the
-optimal value of the logistic regression model’s hyperparameter, *C*,
-using 5-fold cross validation with random search `RandomizedSearchCV`.
-We further performed feature selection using `RandomUnderSampler`,
-`OneHotEncoder`, `RFECV`, and `LogisticRegression` model to reduce the
-number of features. The R and Python programming languages (R Core Team
-2019; Van Rossum and Drake 2009) and the following R and Python packages
-were used to perform the analysis: knitr (Xie 2014), docopt (Keleshev
-2014), os (Van Rossum and Drake 2009), Pandas (McKinney 2010),
-scikit-learn (Pedregosa et al. 2011), imbalance-learn (Lema^itre,
-Nogueira, and Aridas 2017), Altair (VanderPlas et al. 2018), Vegalite
-(Satyanarayan et al. 2017). The code used to perform the analysis and
-create this report can be found here:
+correspond to at least one fatality to 1, and converting values that
+correspond to an injury or no injury to 0. The “FATALITY” column served
+as the target column to be predicted. In order to tackle the issue of
+class imbalance and to perform cross-validations in feasible times with
+our available computing power, we performed random undersampling using
+`RandomUnderSampler`. Since all features were categorical, our pipeline
+consisted of the `RandomUnderSampler`, a `OneHotEncoder`, and the
+`LogisticRegression` model. We determined the optimal value of the
+logistic regression model’s hyperparameter, *C*, using 5-fold cross
+validation with random search `RandomizedSearchCV`. We further performed
+feature selection using `RandomUnderSampler`, `OneHotEncoder`, `RFECV`,
+and `LogisticRegression` model to reduce the number of features. The R
+and Python programming languages (R Core Team 2019; Van Rossum and Drake
+2009) and the following R and Python packages were used to perform the
+analysis: knitr (Xie 2014), docopt (Keleshev 2014), os (Van Rossum and
+Drake 2009), Pandas (McKinney 2010), scikit-learn (Pedregosa et al.
+2011), imbalance-learn (Lema^itre, Nogueira, and Aridas 2017), Altair
+(VanderPlas et al. 2018), Vegalite (Satyanarayan et al. 2017). The code
+used to perform the analysis and create this report can be found here:
 <https://github.com/UBC-MDS/Collision_Prediction>.
 
 # Results & Discussion
@@ -229,19 +228,16 @@ classifier has f1, recall, and precision scores of 0 because it never
 correctly predicts the class of interest, fatalities. We can see that
 the logistic regression model performs slightly better in this regard
 with an f1 score of 0.088 (+/- 0.002) but this is still extremely low.
-The logistic regression model has a decent recall of
-`r`CV_results\[\[“Logistic
-Regression”\]\]\[5\]`but a very poor precision of`r
-`CV_results[["Logistic Regression"]][5]` which is dragging down the f1
-score. What these results mean is that the model correctly predicts when
-a collision results in fatalities a high amount of the time, but out of
-the times it predicts fatality, more of the predictions are actually
-false classifications of fatality. As seen in table 1, after optimizing
-the logistic regression model’s C hyperparameter, the model does not
-perform any better. Furthermore, the low average precision,
-`r`CV_results\[\[“Logistic Regression Optimized”\]\]\[6\]\`, seen in the
-model do not indicate that we can change the prediction probability
-threshold to meaningfully increase precision.
+The logistic regression model has a decent recall of 0.741 (+/- 0.020)
+but a very poor precision of 0.047 (+/- 0.001) which is dragging down
+the f1 score. What these results mean is that the model correctly
+predicts when a collision results in fatalities a high amount of the
+time, but out of the times it predicts fatality, more of the predictions
+are actually false classifications of fatality. As seen in table 1,
+after optimizing the logistic regression model’s C hyperparameter, the
+model does not perform any better. Furthermore, the low average
+precision, 0.090 (+/- 0.006), does not indicate that we can change the
+prediction probability threshold to meaningfully increase precision.
 
 <table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
