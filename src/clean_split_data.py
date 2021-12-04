@@ -14,17 +14,14 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from docopt import docopt
+import os
 
 opt = docopt(__doc__)
 
 
 def main():
     # Importing NCDB 2017 dataset
-<<<<<<< HEAD
     ncdb = pd.read_csv(opt["--input"], low_memory=False, skiprows = 1).sort_index()
-=======
-    ncdb = pd.read_csv(opt["--input"], low_memory=False, skiprows=1).sort_index()
->>>>>>> 967de0b3b8e5d82783ca0d50d65ee4af7d55f544
 
     # Make all columns contain strings
     ncdb = ncdb.astype("string")
@@ -44,10 +41,21 @@ def main():
     train_df = train_df.replace(to_replace=null_value, value="missing")
     test_df = test_df.replace(to_replace=null_value, value="missing")
 
-    # Create training and test set files
     output = opt["--output"]
-    train_df.to_csv(f"{output}train.csv", index_label="index")
-    test_df.to_csv(f"{output}test.csv", index_label="index")
+    # Test if we have the given filepath in the directory, if not, create one.
+    try:
+        train_df.to_csv(f"{output}train.csv", index_label="index")
+    except:
+        os.makedirs(os.path.dirname(output))
+        train_df.to_csv(f"{output}train.csv", index_label="index")
+    
+    # Create training and test set files    
+    # Test if we have the given filepath in the directory, if not, create one.
+    try:
+        test_df.to_csv(f"{output}test.csv", index_label="index")
+    except:
+        os.makedirs(os.path.dirname(output))
+        test_df.to_csv(f"{output}test.csv", index_label="index")
     # When reading train_df or test_df, must use .set_index("index").rename_axis(None)
 
 
