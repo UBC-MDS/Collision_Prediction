@@ -12,5 +12,7 @@ dependencies:
   - python=3.10.0
   - scikit-learn==1.0.1
   - pandoc==2.16.2
+  - altair_saver==0.5.0
+  - imbalanced-learn==0.8.1
   - pip:
     - docopt-ng==0.7.2
