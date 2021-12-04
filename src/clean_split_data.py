@@ -20,7 +20,7 @@ opt = docopt(__doc__)
 
 def main():
     # Importing NCDB 2017 dataset
-    ncdb = pd.read_csv(opt["--input"], low_memory=False).sort_index()
+    ncdb = pd.read_csv(opt["--input"], low_memory=False, skiprows = 1).sort_index()
 
     # Make all columns contain strings
     ncdb = ncdb.astype("string")
