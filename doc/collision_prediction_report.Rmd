@@ -1,6 +1,6 @@
 ---
 title: "Predicting fatalities resulting from motor vehicle collisions"
-author: "MDS-2021-22 block3 group21"
+author: "MDS-2021-22 Block 3 Group 21"
 date: "25/11/2021"
 output:
   github_document:
@@ -19,73 +19,70 @@ library(tidyverse)
 ```
 
 ```{r load model results}
-score_results <- read_csv("../results/score_results.csv", show_col_types = FALSE)
-train_cm <- read_csv("../results/train_confusion_matrix.csv", show_col_types = FALSE)
-scores_after_FS <- read_csv("../results/scores_after_FS.csv", show_col_types = FALSE)
+CV_results <- read_csv("../results/CV_results.csv", show_col_types = FALSE)
+final_scores <- read_csv("../results/final_scores.csv", show_col_types = FALSE)
 test_cm <- read_csv("../results/test_confusion_matrix.csv", show_col_types = FALSE)
-test_scores <- read_csv("../results/test_scores.csv", show_col_types = FALSE)
 ```
+
 
 # Summary
 
-We attempted to build a classification model using Logistic Regression, which leverages the national collision database of Canada for 2017 to predict whether a collision would result in a fatality or not. The final model returned an accuracy score of `r round(test_scores$test_score[1], 3)` on the test data, however, it achieved a high recall score: `r round(test_cm$fatal[2]/(test_cm$fatal[2] + test_cm$non_fatal[2]), 3)` but a low precision score: `r round(test_cm$fatal[2]/(test_cm$fatal[2] + test_cm$fatal[1]), 3)`, which is expected because the data set has a large amount of false positives and, therefore, the model cannot accurately predict fatalities. Thus, we recommend reviewing and improving this prediction model to make better predictions.
-
-```{r}
-test_cm <- test_cm  %>%
-  kbl(caption = "Table 1. Confusion Matrix on the Test data") %>%
-  kable_styling(c("striped", "hover"), full_width = F)
-
-test_cm
-```
+In this project we attempt to build a classification model using the logistic regression algorithm and data obtained from police-reported motor vehicle collisions on public roads in Canada to predict whether a collision would result in a fatality or not. The final model performed poorly on both the training set and the test set, returning a high recall of `r final_scores$recall[2]`, but a very low precision of  `r final_scores$precision[2]`, resulting in a low f1-score of `r final_scores$f1[2]`. The impact of the low precision can be seen in the results of the prediction of the test set,  where the model incorrectly predicts fatalities around `r round(test_cm$fatal[1] / test_cm$fatal[2], 0)` times more than it correctly predicts fatalities.
 
 # Introduction
 
-Stemming from the frequent news we come across on fatalities due to motor vehicle collisions, we thought about designing a model that would help predict whether a motor vehicle collision would result in a fatality or not. This lead to our predictive research question: "Will a motor vehicle collision result in fatalities?". Expanding upon this question, we also ask: "What are the major contributors that predict a fatal collision?" Through this predictive analysis we first aim to predict whether a collision would result in a fatality or not followed by determining what features are most important in making these predictions. Specifically, we want to know how important month, roadway configuration, weather condition, person age, and vehicle type are in predicting the severity of a motor vehicle collision.
+Motor vehicle collisions are globally the eighth leading cause of death, and in 2018 were the leading causes of death for people aged 5-29 years old [@WHO]. Each year an estimated 1.35 million people die due to motor vehicle collisions, rising steadily to match the growth of the world's population [@WHO]. In this project we seek to predict whether motor vehicle collisions will result in fatalities based on a number of factors including time of year, vehicle type, roadway configuration, and traffic control. Answering this predictive research question could have potential impacts on infrastructure policies and driving laws, which could in turn save lives.
 
 # Methods
+
 ## Data
-The data set that will be used in this project has been sourced from the National Collision Database [@NCDB], published by Transport Canada. The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We will start off our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
+
+The data set that was used in this project has been sourced from the National Collision Database [@NCDB], published by Transport Canada. The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. However, we ran our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
 
 ## Model
-The Logistic Regression algorithm was used to build a classification model to predict whether a motor vehicle collision lead to a fatality or not. All variables included in the original data set, with the exception of "C_YEAR", "C_CASE", "C_SEV" were used to fit the model. The "P_ISEV" column served as the target column to be predicted. The hyperparameter's $C$ and $Gamma$ were chosen using 5-fold cross validation with random search `RandomizedSearchCV`. In order to tackle the issue of class imbalance, we performed random undersampling using `RandomUnderSampler`. This helped us in determining the Logistic Regression model with the best parameters. We further performed feature selection using `RandomUnderSampler`, `OneHotEncoder`, `RFECV`, and `LogisticRegression` model to reduce the number of features. The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: knitr [@knitr], docopt [@docoptpython], os [@Python], Pandas [@mckinney-proc-scipy-2010], scikit-learn [@scikit-learn], Altair [@altair], Vegalite [@vegalite]. The code used to perform the analysis and create this report can be found here: <https://github.com/UBC-MDS/Collision_Prediction>.
+
+The Logistic Regression algorithm was used to build a classification model to predict whether a motor vehicle collision leads to a fatality or not. All variables included in the original data set, with the exception of "C_YEAR", "C_CASE", "C_SEV", "P_ISEV", "V_ID", and "P_ID" were used to fit the model, as these features were either irrelevant to our prediction or contained redundant information. The "FATALITY" column was created using the feature "C_SEV" by converting values that correspond to at least one fatality to 1, and converting values that correspond to an injury or no injury to 0. The "FATALITY" column served as the target column to be predicted. In order to tackle the issue of class imbalance and to perform cross-validations in feasible times with our available computing power, we performed random undersampling using `RandomUnderSampler`. Since all features were categorical, our pipeline consisted of the `RandomUnderSampler`, a `OneHotEncoder`, and the `LogisticRegression` model. We determined the optimal value of the logistic regression model's hyperparameter, $C$, using 5-fold cross validation with random search `RandomizedSearchCV`. We further performed feature selection using `RandomUnderSampler`, `OneHotEncoder`, `RFECV`, and `LogisticRegression` model to reduce the number of features. The R and Python programming languages [@R; @Python] and the following R and Python packages were used to perform the analysis: knitr [@knitr], docopt [@docoptpython], os [@Python], Pandas [@mckinney-proc-scipy-2010], scikit-learn [@scikit-learn], imbalance-learn [@Imbalance-learn], Altair [@altair], Vegalite [@vegalite]. The code used to perform the analysis and create this report can be found here: https://github.com/UBC-MDS/Collision_Prediction.
 
 # Results & Discussion
+
 In order to determine how the distribution of the features differ between the two classes, we plotted bar charts to compare the distribution of all features between `Fatality = False` and `Fatality = True`. The associated data dictionary can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a/resource/09b74afc-2745-4382-8a02-3e256c4b28fd).
 
-```{r, echo=FALSE, fig.cap="Figure 1. Distribution of features by Fatality",fig.show='hold',fig.align='center'}
+```{r, echo=FALSE, fig.cap="Figure 1. Distribution of features by fatality",fig.show='hold',fig.align='center'}
 knitr::include_graphics("../results/Distribution_of_no_fatality.png", dpi=100)
 knitr::include_graphics("../results/Distribution_of_fatality.png", dpi=100)
 ```
-
-We chose to apply a logistic regression model on the data set and ran hyper-parameter optimization to find the most optimized model; after that, we applied RFECV for feature selection.
-
-```{r}
-scores <- score_results %>% 
-  mutate(lr_model = `Logistic Regression`,
-         lr_model_optimized = `Logistic Regression Optimized`) %>%
-  select(score_type, lr_model, lr_model_optimized) %>%
-  kbl(caption = "Table 2. Scores from the Logistic Regression model before and after optimization") %>%
-  kable_styling(c("striped", "hover"), full_width = F)
-
-scores
-```
+Promising features in which we can see a clear difference in the shape of the distributions between collisions that are fatal and non-fatal include V_YEAR, C_MNTH, C_RCFG, and P_AGE. However, we decided to use all features in our model and to rely on recursive feature elimination with cross-validation to eliminate features that are not important for prediction.
 
 ```{r}
-scores_after_FS_updated <- scores_after_FS  %>%
-  kbl(caption = "Table 3. Scores from the final Logistic Regression model") %>%
+# scores <- score_results %>% 
+#   mutate(lr_model = `Logistic Regression`,
+#          lr_model_optimized = `Logistic Regression Optimized`) %>%
+#   select(score_type, lr_model, lr_model_optimized) %>%
+#   kbl(caption = "Table 2. Scores from the Logistic Regression model before and after optimization") %>%
+#   kable_styling(c("striped", "hover"), full_width = F)
+
+CV_results |> 
+  kbl(
+    caption = "Table 1. Cross-validation scores from the Logistic Regression model before and after optimization"
+    ) |> 
   kable_styling(c("striped", "hover"), full_width = F)
 
-scores_after_FS_updated
 ```
+
+To create a baseline model to which we could compare out logistic regression model, we used a dummy classifier which predicts the most frequent class, non-fatalities. As seen in table 1, the dummy classifier has a high accuracy, which is expected because it correctly predicts the most frequent class. What is much more important is that the dummy classifier has f1, recall, and precision scores of 0 because it never correctly predicts the class of interest, fatalities. We can see that the logistic regression model performs slightly better in this regard with an f1 score of `r CV_results[["Logistic Regression"]][4]` but this is still extremely low. The logistic regression model has a decent recall of `r CV_results[["Logistic Regression"]][5]` but a very poor precision of `r CV_results[["Logistic Regression"]][6]` which is dragging down the f1 score. What these results mean is that the model correctly predicts when a collision results in fatalities a high amount of the time, but out of the times it predicts fatality, more of the predictions are actually false classifications of fatality. As seen in table 1, after optimizing the logistic regression model's C hyperparameter, the model does not perform any better. Furthermore, the low average precision, `r CV_results[["Logistic Regression Optimized"]][7]`, does not indicate that we can change the prediction probability threshold to meaningfully increase precision.
 
 ```{r}
-train_cm <- train_cm  %>%
-  kbl(caption = "Table 4. Confusion Matrix from the final Logistic Regression model") %>%
+final_scores  |> 
+  kbl(caption = "Table 2. Scores obtained from the final logistic regression model") %>%
   kable_styling(c("striped", "hover"), full_width = F)
-
-train_cm
 ```
+```{r}
+test_cm |> 
+  kbl(caption = "Table 3. Confusion matrix obtained from scoring the logistic regression model on the test set") %>%
+  kable_styling(c("striped", "hover"), full_width = F)
+```
+The final logistic regression model was obtained by performing feature selection on the optimized model. A comparison of the scores obtained using this model on the training set and test set can be seen in table 2. The test scores are extremely similar to the training scores which means that despite the model's low scores it was at least able to generalize well to new data. The confusion matrix seen in table 3 further highlights the problems with the model, where on the test set the model predicts fatalities falsely around `r round(test_cm$fatal[1] / test_cm$fatal[2], 0)` times more than it correctly predicts fatalities, which is expected due to the huge disparity between precision and recall.
 
-In the future, we could do more work to fix this problem: (1) Feature engineering: We can try `PolynomialFeatures` as the classes may not be linearly separable; (2) Changing the threshold: Generate ROC and Precision-Recall curves to determine if we can increase precision without sacrificing recall by changing the prediction threshold; (3) Trying a new model algorithm: The data may not be very linearly separable and so we could also try a different classification model such as decision tree or SVC.
+The low performance of the final logistic regression model shows that there is a lot of room for growth in answering the set out predictive research question. The poor final results of the model indicate that the data may not be linearly separable.  Future work that could be done to address this problem and to improve the performance of the classification model include feature engineering  with sklearn's `PolynomialFeatures`, and using other non-linear model algorithms or an ensemble of model algorithms such as decision trees, SVC, and random forest classifiers.
 
 # References
