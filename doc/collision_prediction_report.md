@@ -154,10 +154,10 @@ lr_model_optimized
 fit_time
 </td>
 <td style="text-align:left;">
-0.165 (+/- 0.023)
+0.264 (+/- 0.013)
 </td>
 <td style="text-align:left;">
-0.150 (+/- 0.016)
+0.202 (+/- 0.020)
 </td>
 </tr>
 <tr>
@@ -165,10 +165,10 @@ fit_time
 score_time
 </td>
 <td style="text-align:left;">
-0.339 (+/- 0.006)
+0.406 (+/- 0.004)
 </td>
 <td style="text-align:left;">
-0.373 (+/- 0.012)
+0.400 (+/- 0.010)
 </td>
 </tr>
 <tr>
