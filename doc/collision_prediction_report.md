@@ -124,13 +124,13 @@ Logistic Regression Optimized
 fit_time
 </td>
 <td style="text-align:left;">
-0.157 (+/- 0.007)
+0.146 (+/- 0.006)
 </td>
 <td style="text-align:left;">
-0.419 (+/- 0.013)
+0.475 (+/- 0.023)
 </td>
 <td style="text-align:left;">
-0.371 (+/- 0.026)
+0.390 (+/- 0.032)
 </td>
 </tr>
 <tr>
@@ -138,13 +138,13 @@ fit_time
 score_time
 </td>
 <td style="text-align:left;">
-0.410 (+/- 0.033)
+0.399 (+/- 0.032)
 </td>
 <td style="text-align:left;">
-0.444 (+/- 0.014)
+0.433 (+/- 0.013)
 </td>
 <td style="text-align:left;">
-0.475 (+/- 0.049)
+0.466 (+/- 0.058)
 </td>
 </tr>
 <tr>
