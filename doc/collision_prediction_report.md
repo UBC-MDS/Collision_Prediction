@@ -13,60 +13,6 @@ MDS-2021-22 Block 3 Group 21
 
 # Summary
 
-<<<<<<< HEAD
-We attempted to build a classification model using Logistic Regression,
-which leverages the national collision database of Canada for 2017 to
-predict whether a collision would result in a fatality or not. The final
-model returned an accuracy score of 0.8 on the test data, however, it
-achieved a high recall score: 0.739 but a low precision score: 0.022,
-which is expected because the data set has a large amount of false
-positives and, therefore, the model cannot accurately predict
-fatalities. Thus, we recommend reviewing and improving this prediction
-model to make better predictions.
-
-<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-Table 1. Confusion Matrix on the Test data
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-actuals
-</th>
-<th style="text-align:right;">
-non_fatal
-</th>
-<th style="text-align:right;">
-fatal
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-non_fatal
-</td>
-<td style="text-align:right;">
-23071
-</td>
-<td style="text-align:right;">
-5738
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-fatal
-</td>
-<td style="text-align:right;">
-46
-</td>
-<td style="text-align:right;">
-130
-</td>
-</tr>
-</tbody>
-</table>
-=======
 In this project we attempt to build a classification model using the
 logistic regression algorithm and data obtained from police-reported
 motor vehicle collisions on public roads in Canada to predict whether a
@@ -77,7 +23,6 @@ f1-score of 0.09. The impact of the low precision can be seen in the
 results of the prediction of the test set, where the model incorrectly
 predicts fatalities around 20 times more than it correctly predicts
 fatalities.
->>>>>>> 967de0b3b8e5d82783ca0d50d65ee4af7d55f544
 
 # Introduction
 
@@ -266,11 +211,7 @@ test_average_precision
 0.015 (+/- 0.000)
 </td>
 <td style="text-align:left;">
-<<<<<<< HEAD
-0.792 (+/- 0.005)
-=======
 0.090 (+/- 0.006)
->>>>>>> 967de0b3b8e5d82783ca0d50d65ee4af7d55f544
 </td>
 <td style="text-align:left;">
 0.090 (+/- 0.006)
@@ -331,31 +272,19 @@ average_precision
 training_scores
 </td>
 <td style="text-align:right;">
-<<<<<<< HEAD
-0.7990194
-=======
 0.770
->>>>>>> 967de0b3b8e5d82783ca0d50d65ee4af7d55f544
 </td>
 <td style="text-align:right;">
 0.091
 </td>
 <td style="text-align:right;">
-<<<<<<< HEAD
-0.0499085
-=======
 0.758
->>>>>>> 967de0b3b8e5d82783ca0d50d65ee4af7d55f544
 </td>
 <td style="text-align:right;">
 0.048
 </td>
 <td style="text-align:right;">
-<<<<<<< HEAD
-0.0257378
-=======
 0.094
->>>>>>> 967de0b3b8e5d82783ca0d50d65ee4af7d55f544
 </td>
 </tr>
 <tr>
@@ -375,11 +304,7 @@ test_scores
 0.048
 </td>
 <td style="text-align:right;">
-<<<<<<< HEAD
-0.8196429
-=======
 0.106
->>>>>>> 967de0b3b8e5d82783ca0d50d65ee4af7d55f544
 </td>
 </tr>
 </tbody>
@@ -408,17 +333,10 @@ fatal
 non_fatal
 </td>
 <td style="text-align:right;">
-<<<<<<< HEAD
-207052
-</td>
-<td style="text-align:right;">
-52124
-=======
 43849
 </td>
 <td style="text-align:right;">
 13164
->>>>>>> 967de0b3b8e5d82783ca0d50d65ee4af7d55f544
 </td>
 </tr>
 <tr>
@@ -426,17 +344,10 @@ non_fatal
 fatal
 </td>
 <td style="text-align:right;">
-<<<<<<< HEAD
-303
-</td>
-<td style="text-align:right;">
-1377
-=======
 289
 </td>
 <td style="text-align:right;">
 667
->>>>>>> 967de0b3b8e5d82783ca0d50d65ee4af7d55f544
 </td>
 </tr>
 </tbody>
