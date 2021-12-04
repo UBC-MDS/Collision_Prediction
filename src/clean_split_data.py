@@ -40,17 +40,15 @@ def main():
     null_value = ["N", "NN", "NNNN", "Q", "QQ", "U", "UU", "UUUU", "X", "XX", "XXXX"]
     train_df = train_df.replace(to_replace=null_value, value="missing")
     test_df = test_df.replace(to_replace=null_value, value="missing")
-
-    output = opt["--output"]
+    
+    # Create training and test set files 
     # Test if we have the given filepath in the directory, if not, create one.
+    output = opt["--output"]
     try:
         train_df.to_csv(f"{output}train.csv", index_label="index")
     except:
         os.makedirs(os.path.dirname(output))
         train_df.to_csv(f"{output}train.csv", index_label="index")
-    
-    # Create training and test set files    
-    # Test if we have the given filepath in the directory, if not, create one.
     try:
         test_df.to_csv(f"{output}test.csv", index_label="index")
     except:

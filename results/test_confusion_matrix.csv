@@ -1,8 +1,3 @@
 actuals,non_fatal,fatal
-<<<<<<< HEAD
-non_fatal,23071,5738
-fatal,46,130
-=======
-non_fatal,43849,13164
-fatal,289,667
->>>>>>> 967de0b3b8e5d82783ca0d50d65ee4af7d55f544
+non_fatal,43855,13158
+fatal,288,668
