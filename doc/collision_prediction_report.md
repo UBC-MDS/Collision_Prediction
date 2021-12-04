@@ -89,6 +89,7 @@ distribution of all features between `Fatality = False` and
 [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a/resource/09b74afc-2745-4382-8a02-3e256c4b28fd).
 
 <img src="../results/Distribution_of_no_fatality.png" title="Figure 1. Distribution of features by fatality" alt="Figure 1. Distribution of features by fatality" style="display: block; margin: auto;" /><img src="../results/Distribution_of_fatality.png" title="Figure 1. Distribution of features by fatality" alt="Figure 1. Distribution of features by fatality" style="display: block; margin: auto;" />
+
 Promising features in which we can see a clear difference in the shape
 of the distributions between collisions that are fatal and non-fatal
 include V_YEAR, C_MNTH, C_RCFG, and P_AGE. However, we decided to use
