@@ -22,7 +22,8 @@ alt.renderers.enable("mimetype")
 
 opt = docopt(__doc__)
 
-if __name__ == "__main__":
+
+def main():
 
     train_path = opt["--train"]
     save_path = opt["--out_dir"]
@@ -32,47 +33,48 @@ if __name__ == "__main__":
     )
     
     # Converts values of P_SEX column into numeric
-    sex = {'M': 1, 'F': 0, 'missing': 'missing'}
-    train_df['P_SEX'] = [sex[item] for item in train_df['P_SEX']]
+    sex = {"M": 1, "F": 0, "missing": "missing"}
+    train_df["P_SEX"] = [sex[item] for item in train_df["P_SEX"]]
     
     # Creates the list of features to feed into distribution plots
-    features = list(set(train_df.columns.values) - set(['index', 'FATALITY']))
+    features = list(set(train_df.columns.values) - set(["index", "FATALITY"]))
 
-    # Creates and saves distribution plots when Fatality = False
+    # Creates distribution plots when Fatality = 0
     Chart_False = (
         alt.Chart(train_df)
-        .mark_bar(opacity=0.5)
+        .mark_bar(opacity=0.7)
         .encode(
             x=alt.X(alt.repeat("row"), type="quantitative", bin=alt.Bin(maxbins=40)),
             y=alt.Y("count()", title="Number of collisions"),
-            color=alt.Color("FATALITY", scale=alt.Scale(range=["blue"]), legend=None))
+            color=alt.Color("FATALITY", scale=alt.Scale(scheme="category20c"), legend=None))
         .properties(width=150, height=100)
         .repeat(
             row=features,
-            title="FATALITY = False")
+            title="No fatality")
         .resolve_scale(y="independent")
-        .transform_filter(alt.FieldOneOfPredicate(field="FATALITY", oneOf=[False]))
+        .transform_filter(alt.FieldOneOfPredicate(field="FATALITY", oneOf=[0]))
     )
     
     Chart_False.save(f"{save_path}Distribution_of_no_fatality.png")
     
-    # Creates and saves distribution plots when Fatality = True
+    # Creates distribution plots when Fatality = 1
     Chart_True = (
         alt.Chart(train_df)
-        .mark_bar(opacity=0.5)
+        .mark_bar(opacity=0.7)
         .encode(
             x=alt.X(alt.repeat("row"), type="quantitative", bin=alt.Bin(maxbins=40)),
             y=alt.Y("count()", title="Number of collisions"),
-            color=alt.Color("FATALITY", scale=alt.Scale(range=["green"]), legend=None))
+            color=alt.Color("FATALITY", scale=alt.Scale(scheme="category20b"), legend=None))
         .properties(width=150, height=100)
         .repeat(
             row=features,
-            title="FATALITY = True")
+            title="Fatality")
         .resolve_scale(y="independent")
-        .transform_filter(alt.FieldOneOfPredicate(field="FATALITY", oneOf=[True]))
+        .transform_filter(alt.FieldOneOfPredicate(field="FATALITY", oneOf=[1]))
     )
     
     Chart_True.save(f"{save_path}Distribution_of_fatality.png")
 
-
-
+    
+if __name__ == "__main__":
+    main()
