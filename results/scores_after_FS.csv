@@ -1,0 +1,5 @@
+scoring_metric,LR after Feature Selection
+accuracy,0.7990193823412151
+f1,0.04990848299233432
+precision,0.025737836675949984
+recall,0.8196428571428571

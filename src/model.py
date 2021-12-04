@@ -6,7 +6,7 @@ Usage: model.py --input=<input>  --output=<output>
  
 Options:
 --input=<input>       The path or filename pointing to the data
---output=<output>     Directory specifying where to store output figure(s)/table(s)
+--output=<output>     The prefix where to write the output figure(s)/table(s) to and what to call it 
 """
 
 import os
@@ -27,7 +27,6 @@ import pickle
 import imblearn
 from imblearn.pipeline import make_pipeline as make_imb_pipeline
 from imblearn.under_sampling import RandomUnderSampler
-from sklearn.dummy import DummyClassifier
 
 opt = docopt(__doc__)
 
@@ -44,24 +43,9 @@ def main(input, output):
     y_train = train_df["FATALITY"]
 
     # Convert columns into string data type
-    X_train = X_train.astype("string")
-
-    # Create pipeline containing the baseline model
-    # Using undersampling to address class imbalance
-    dummy_pipe = make_imb_pipeline(
-        RandomUnderSampler(random_state=21),
-        OneHotEncoder(handle_unknown="ignore", sparse=False),
-        DummyClassifier()
-    )
-
-    # Create list of desired scoring metrics
-    scoring_metrics = ["accuracy", "f1", "recall", "precision", "average_precision"]
-
-    # Determine CV scores of baseline model
-    results = {}
-    results["Dummy Classifier"] = mean_std_cross_val_scores(
-        dummy_pipe, X_train, y_train, scoring=scoring_metrics
-    )
+    cols = X_train.columns.tolist()
+    for i in range(len(cols)):
+        X_train[cols[i]] = X_train[cols[i]].astype(str)
 
     # Pipeline including RandomUnderSampler, OneHotEncoder, and LogisticRegression
     # Using undersampling to address class imbalance
@@ -71,10 +55,11 @@ def main(input, output):
         LogisticRegression(max_iter=2000)
     )
 
-    # Determine CV scores of unoptimized model
-
+    # Determine cross-validation accuracy of unoptimized model
+    # Only need accuracy as classes are now balanced
+    results = {}
     results["Logistic Regression"] = mean_std_cross_val_scores(
-        pipe, X_train, y_train, scoring=scoring_metrics
+        pipe, X_train, y_train, return_train_score=True
     )
 
     # Hyperparameter tuning using RandomSearchCV
@@ -88,14 +73,14 @@ def main(input, output):
         verbose=1,
         n_jobs=-1,
         random_state=123,
-        scoring="f1"
+        return_train_score=True
     )
     random_search.fit(X_train, y_train)
     print("Best hyperparameter values: ", random_search.best_params_)
     print("Best score: %0.3f" % (random_search.best_score_))
 
     # Create optimized model
-    pipe_opt = make_imb_pipeline(
+    imb_pipeline = make_imb_pipeline(
         RandomUnderSampler(random_state=21),
         OneHotEncoder(handle_unknown="ignore", sparse=False),
         LogisticRegression(
@@ -106,14 +91,13 @@ def main(input, output):
 
     # Determine cross-validation scores of optimized model
     results["Logistic Regression Optimized"] = mean_std_cross_val_scores(
-        pipe_opt, X_train, y_train, scoring=scoring_metrics
+        imb_pipeline, X_train, y_train, return_train_score=True
     )
-
     result_df = pd.DataFrame(results)
-    result_df.index.name = "Scoring Metric"
+    result_df.index.name = "score_type"
 
-    # Create output table
-    result_df.to_csv(f"{output}CV_results.csv")
+    # Create output tables/images
+    result_df.to_csv("results/score_results.csv")
 
     # Creating the best model
     model = LogisticRegression(
