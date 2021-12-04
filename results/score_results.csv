@@ -1,5 +1,10 @@
 score_type,Logistic Regression,Logistic Regression Optimized
+<<<<<<< HEAD
+fit_time,0.216 (+/- 0.038),0.168 (+/- 0.025)
+score_time,0.369 (+/- 0.014),0.373 (+/- 0.021)
+=======
 fit_time,0.264 (+/- 0.013),0.202 (+/- 0.020)
 score_time,0.406 (+/- 0.004),0.400 (+/- 0.010)
+>>>>>>> ead0d406189574bd66787a351ca2b13cc59bf894
 test_score,0.792 (+/- 0.006),0.796 (+/- 0.006)
-train_score,0.793 (+/- 0.005),0.796 (+/- 0.006)
+train_score,0.792 (+/- 0.005),0.796 (+/- 0.006)
