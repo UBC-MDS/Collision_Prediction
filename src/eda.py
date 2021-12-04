@@ -22,7 +22,8 @@ alt.renderers.enable("mimetype")
 
 opt = docopt(__doc__)
 
-if __name__ == "__main__":
+
+def main():
 
     train_path = opt["--train"]
     save_path = opt["--out_dir"]
@@ -74,5 +75,6 @@ if __name__ == "__main__":
     
     Chart_True.save(f"{save_path}Distribution_of_fatality.png")
 
-
-
+    
+if __name__ == "__main__":
+    main()
