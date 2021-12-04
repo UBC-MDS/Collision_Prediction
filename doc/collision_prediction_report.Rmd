@@ -45,7 +45,7 @@ The Logistic Regression algorithm was used to build a classification model to pr
 
 # Results & Discussion
 
-In order to determine how the distribution of the features differ between the two classes, we plotted bar charts to compare the distribution of all features between `Fatality = False` and `Fatality = True`. The associated data dictionary can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a/resource/09b74afc-2745-4382-8a02-3e256c4b28fd).
+In order to determine how the distribution of the features differ between the two classes, we plotted bar charts to compare the distribution of all features between `No fatality` and `Fatality`. The associated data dictionary can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a/resource/09b74afc-2745-4382-8a02-3e256c4b28fd).
 
 ```{r, echo=FALSE, fig.cap="Figure 1. Distribution of features by fatality",fig.show='hold',fig.align='center'}
 knitr::include_graphics("../results/Distribution_of_no_fatality.png", dpi=100)

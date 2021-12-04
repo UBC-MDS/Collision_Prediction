@@ -25,7 +25,19 @@ The final report can be found [here](https://github.com/UBC-MDS/Collision_Predic
 
 ## Usage
 
-To replicate this analysis, clone this GitHub repository, install the listed [dependencies](#Dependencies), and run the following commands from the terminal/command line from within the project's root directory:
+To replicate the analysis, clone this GitHub repository, install the [dependencies](#Dependencies) listed below, and run the following commands at the command line/terminal from the root directory of this project:
+
+```
+make all
+```
+
+To reset the repo to a clean state, with no intermediate or results files, run the following command at the command line/ terminal from the root directory of this project:
+
+```
+make clean
+```
+
+Alternatively, the scripts can be specified and run individually as:
 
 ```
 # download data
@@ -48,7 +60,6 @@ python src/score.py --input=data/processed/ --output=results/
 
 # render final report
 Rscript -e "rmarkdown::render('doc/collision_prediction_report.Rmd')"
-
 ```
 
 ## Dependencies

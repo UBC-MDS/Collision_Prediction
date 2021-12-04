@@ -84,8 +84,8 @@ used to perform the analysis and create this report can be found here:
 
 In order to determine how the distribution of the features differ
 between the two classes, we plotted bar charts to compare the
-distribution of all features between `Fatality = False` and
-`Fatality = True`. The associated data dictionary can be found
+distribution of all features between `No fatality` and
+`Fatality`. The associated data dictionary can be found
 [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a/resource/09b74afc-2745-4382-8a02-3e256c4b28fd).
 
 <img src="../results/Distribution_of_no_fatality.png" title="Figure 1. Distribution of features by fatality" alt="Figure 1. Distribution of features by fatality" style="display: block; margin: auto;" /><img src="../results/Distribution_of_fatality.png" title="Figure 1. Distribution of features by fatality" alt="Figure 1. Distribution of features by fatality" style="display: block; margin: auto;" />
