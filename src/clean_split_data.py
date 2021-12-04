@@ -14,6 +14,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from docopt import docopt
+import os
 
 opt = docopt(__doc__)
 
@@ -39,11 +40,20 @@ def main():
     null_value = ["N", "NN", "NNNN", "Q", "QQ", "U", "UU", "UUUU", "X", "XX", "XXXX"]
     train_df = train_df.replace(to_replace=null_value, value="missing")
     test_df = test_df.replace(to_replace=null_value, value="missing")
-
-    # Create training and test set files
+    
+    # Create training and test set files 
+    # Test if we have the given filepath in the directory, if not, create one.
     output = opt["--output"]
-    train_df.to_csv(f"{output}train.csv", index_label="index")
-    test_df.to_csv(f"{output}test.csv", index_label="index")
+    try:
+        train_df.to_csv(f"{output}train.csv", index_label="index")
+    except:
+        os.makedirs(os.path.dirname(output))
+        train_df.to_csv(f"{output}train.csv", index_label="index")
+    try:
+        test_df.to_csv(f"{output}test.csv", index_label="index")
+    except:
+        os.makedirs(os.path.dirname(output))
+        test_df.to_csv(f"{output}test.csv", index_label="index")
     # When reading train_df or test_df, must use .set_index("index").rename_axis(None)
 
 
