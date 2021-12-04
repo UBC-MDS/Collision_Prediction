@@ -17,6 +17,8 @@ fatalities.
 
 The data set that was used in this project came from the National Collision Database, published by Transport Canada, which can be found [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a). The National Collision Database contains data on all of the police-reported motor vehicle collisions on public roads in Canada from 1999 to the most recent available data from 2017. We ran our analysis using the data collected from collisions that occurred in 2017. This data set contains information licensed under the Open Government Licence – Canada.
 
+The project proposal can be found [here]("https://github.com/UBC-MDS/Collision_Prediction/blob/main/doc/proposal.md").
+
 ## Report
 
 The final report can be found [here](https://github.com/UBC-MDS/Collision_Prediction/blob/main/doc/collision_prediction_report.md).
@@ -27,7 +29,7 @@ To replicate this analysis, clone this GitHub repository, install the listed [de
 
 ```
 # download data
-python src/download_data.py --url="https://opendatatc.blob.core.windows.net/opendatatc/NCDB_2017.csv" --filepath=data/raw/NCDB_2017.csv
+python src/download_data.py --url="https://raw.githubusercontent.com/UBC-MDS/National_Collision_DB_Group407/master/data/raw_data.csv" --filepath=data/raw/NCDB_2017.csv
 
 # clean and split data
 python src/clean_split_data.py --input=data/raw/NCDB_2017.csv --output=data/processed/
@@ -53,11 +55,17 @@ Rscript -e "rmarkdown::render('doc/collision_prediction_report.Rmd')"
 
 * Python 3.10.0 and Python packages:
   * altair=4.1.0=py_1
-  * altair_saver
-  * imbalanced-learn
+  * altair_saver==0.5.0
+  * imbalanced-learn==0.8.1
   * pandas==1.3.4
+  * pandoc==2.16.2
   * scikit-learn==1.0.1
   * docopt-ng==0.7.2
+* R 4.1.1 and R packages:
+  * kableExtra==1.3.4
+  * knitr==1.36
+  * tidyverse==1.3.1
+* GNU Make 4.3
 
 ## License
 
