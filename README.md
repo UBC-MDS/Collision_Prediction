@@ -25,7 +25,15 @@ The final report can be found [here](https://github.com/UBC-MDS/Collision_Predic
 
 ## Usage
 
-To replicate the analysis, clone this GitHub repository, install the [dependencies](#Dependencies) listed below, and run the following commands at the command line/terminal from the root directory of this project:
+To replicate the analysis, clone this GitHub repository, install the [dependencies](#Dependencies) listed below.
+
+For Windows users, run this command to be able to render .png files:
+
+```
+npm install -g vega vega-cli vega-lite canvas
+```
+
+Run the following commands at the command line/terminal from the root directory of this project:
 
 ```
 make all

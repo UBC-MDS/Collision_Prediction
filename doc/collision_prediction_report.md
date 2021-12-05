@@ -18,7 +18,7 @@ logistic regression algorithm and data obtained from police-reported
 motor vehicle collisions on public roads in Canada to predict whether a
 collision would result in a fatality or not. The final model performed
 poorly on both the training set and the test set, returning a high
-recall of 0.698, but a very low precision of 0.048, resulting in a low
+recall of 0.699, but a very low precision of 0.048, resulting in a low
 f1-score of 0.09. The impact of the low precision can be seen in the
 results of the prediction of the test set, where the model incorrectly
 predicts fatalities around 20 times more than it correctly predicts
@@ -84,12 +84,11 @@ used to perform the analysis and create this report can be found here:
 
 In order to determine how the distribution of the features differ
 between the two classes, we plotted bar charts to compare the
-distribution of all features between `No fatality` and
-`Fatality`. The associated data dictionary can be found
+distribution of all features between `No fatality` and `Fatality`. The
+associated data dictionary can be found
 [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a/resource/09b74afc-2745-4382-8a02-3e256c4b28fd).
 
 <img src="../results/Distribution_of_no_fatality.png" title="Figure 1. Distribution of features by fatality" alt="Figure 1. Distribution of features by fatality" style="display: block; margin: auto;" /><img src="../results/Distribution_of_fatality.png" title="Figure 1. Distribution of features by fatality" alt="Figure 1. Distribution of features by fatality" style="display: block; margin: auto;" />
-
 Promising features in which we can see a clear difference in the shape
 of the distributions between collisions that are fatal and non-fatal
 include V_YEAR, C_MNTH, C_RCFG, and P_AGE. However, we decided to use
@@ -124,13 +123,13 @@ Logistic Regression Optimized
 fit_time
 </td>
 <td style="text-align:left;">
-0.146 (+/- 0.006)
+0.211 (+/- 0.012)
 </td>
 <td style="text-align:left;">
-0.475 (+/- 0.023)
+0.601 (+/- 0.078)
 </td>
 <td style="text-align:left;">
-0.390 (+/- 0.032)
+0.561 (+/- 0.040)
 </td>
 </tr>
 <tr>
@@ -138,13 +137,13 @@ fit_time
 score_time
 </td>
 <td style="text-align:left;">
-0.399 (+/- 0.032)
+0.553 (+/- 0.028)
 </td>
 <td style="text-align:left;">
-0.433 (+/- 0.013)
+0.754 (+/- 0.070)
 </td>
 <td style="text-align:left;">
-0.466 (+/- 0.058)
+0.847 (+/- 0.048)
 </td>
 </tr>
 <tr>
@@ -272,7 +271,7 @@ average_precision
 training_scores
 </td>
 <td style="text-align:right;">
-0.770
+0.769
 </td>
 <td style="text-align:right;">
 0.091
@@ -298,7 +297,7 @@ test_scores
 0.090
 </td>
 <td style="text-align:right;">
-0.698
+0.699
 </td>
 <td style="text-align:right;">
 0.048
@@ -333,10 +332,10 @@ fatal
 non_fatal
 </td>
 <td style="text-align:right;">
-43849
+43855
 </td>
 <td style="text-align:right;">
-13164
+13158
 </td>
 </tr>
 <tr>
@@ -344,10 +343,10 @@ non_fatal
 fatal
 </td>
 <td style="text-align:right;">
-289
+288
 </td>
 <td style="text-align:right;">
-667
+668
 </td>
 </tr>
 </tbody>

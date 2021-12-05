@@ -2,10 +2,8 @@
 title: "Predicting fatalities resulting from motor vehicle collisions"
 author: "MDS-2021-22 Block 3 Group 21"
 date: "25/11/2021"
-output:
+output: 
   github_document:
-    toc: yes
-  html_document:
     toc: yes
 always_allow_html: true
 bibliography: collision_prediction_references.bib
@@ -54,13 +52,6 @@ knitr::include_graphics("../results/Distribution_of_fatality.png", dpi=100)
 Promising features in which we can see a clear difference in the shape of the distributions between collisions that are fatal and non-fatal include V_YEAR, C_MNTH, C_RCFG, and P_AGE. However, we decided to use all features in our model and to rely on recursive feature elimination with cross-validation to eliminate features that are not important for prediction.
 
 ```{r}
-# scores <- score_results %>% 
-#   mutate(lr_model = `Logistic Regression`,
-#          lr_model_optimized = `Logistic Regression Optimized`) %>%
-#   select(score_type, lr_model, lr_model_optimized) %>%
-#   kbl(caption = "Table 2. Scores from the Logistic Regression model before and after optimization") %>%
-#   kable_styling(c("striped", "hover"), full_width = F)
-
 CV_results |> 
   kbl(
     caption = "Table 1. Cross-validation scores from the Logistic Regression model before and after optimization"
@@ -81,6 +72,7 @@ test_cm |>
   kbl(caption = "Table 3. Confusion matrix obtained from scoring the logistic regression model on the test set") %>%
   kable_styling(c("striped", "hover"), full_width = F)
 ```
+
 The final logistic regression model was obtained by performing feature selection on the optimized model. A comparison of the scores obtained using this model on the training set and test set can be seen in table 2. The test scores are extremely similar to the training scores which means that despite the model's low scores it was at least able to generalize well to new data. The confusion matrix seen in table 3 further highlights the problems with the model, where on the test set the model predicts fatalities falsely around `r round(test_cm$fatal[1] / test_cm$fatal[2], 0)` times more than it correctly predicts fatalities, which is expected due to the huge disparity between precision and recall.
 
 The low performance of the final logistic regression model shows that there is a lot of room for growth in answering the set out predictive research question. The poor final results of the model indicate that the data may not be linearly separable.  Future work that could be done to address this problem and to improve the performance of the classification model include feature engineering  with sklearn's `PolynomialFeatures`, and using other non-linear model algorithms or an ensemble of model algorithms such as decision trees, SVC, and random forest classifiers.
