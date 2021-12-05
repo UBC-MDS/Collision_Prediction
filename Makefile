@@ -30,7 +30,7 @@ results/final_scores.csv results/test_confusion_matrix.csv : src/score.py data/p
 	python src/score.py --input=data/processed/ --output=results/
 
 # render final report
-doc/collision_prediction_report.md : doc/collision_prediction_report.Rmd doc/collision_prediction_references.bib results/CV_results.csv results/final_scores.csv results/test_confusion_matrix.csv results/Distribution_of_no_fatality.png results/Distribution_of_fatality.png
+doc/collision_prediction_report.md : doc/collision_prediction_report.Rmd doc/collision_prediction_references.bib results/Distribution_of_no_fatality.png results/Distribution_of_fatality.png results/CV_results.csv results/final_scores.csv results/test_confusion_matrix.csv
 	Rscript -e "rmarkdown::render('doc/collision_prediction_report.Rmd')"
 
 # clean
@@ -41,5 +41,5 @@ clean :
 	rm -rf results/*.png
 	rm -rf results/*.rds
 	rm -rf results/*.csv
-	rm -rf doc/*.md
+	rm -rf doc/collision_prediction_report.md
 	rm -rf doc/*.pdf
