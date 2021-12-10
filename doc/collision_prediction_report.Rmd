@@ -52,10 +52,10 @@ knitr::include_graphics("../results/Distribution_of_fatality.png", dpi=100)
 Promising features in which we can see a clear difference in the shape of the distributions between collisions that are fatal and non-fatal include V_YEAR, C_MNTH, C_RCFG, and P_AGE. However, we decided to use all features in our model and to rely on recursive feature elimination with cross-validation to eliminate features that are not important for prediction.
 
 ```{r}
-CV_results |> 
+CV_results %>% 
   kbl(
     caption = "Table 1. Cross-validation scores from the Logistic Regression model before and after optimization"
-    ) |> 
+    ) %>% 
   kable_styling(c("striped", "hover"), full_width = F)
 
 ```
@@ -63,12 +63,12 @@ CV_results |>
 To create a baseline model to which we could compare out logistic regression model, we used a dummy classifier which predicts the most frequent class, non-fatalities. As seen in table 1, the dummy classifier has a high accuracy, which is expected because it correctly predicts the most frequent class. What is much more important is that the dummy classifier has f1, recall, and precision scores of 0 because it never correctly predicts the class of interest, fatalities. We can see that the logistic regression model performs slightly better in this regard with an f1 score of `r CV_results[["Logistic Regression"]][4]` but this is still extremely low. The logistic regression model has a decent recall of `r CV_results[["Logistic Regression"]][5]` but a very poor precision of `r CV_results[["Logistic Regression"]][6]` which is dragging down the f1 score. What these results mean is that the model correctly predicts when a collision results in fatalities a high amount of the time, but out of the times it predicts fatality, more of the predictions are actually false classifications of fatality. As seen in table 1, after optimizing the logistic regression model's C hyperparameter, the model does not perform any better. Furthermore, the low average precision, `r CV_results[["Logistic Regression Optimized"]][7]`, does not indicate that we can change the prediction probability threshold to meaningfully increase precision.
 
 ```{r}
-final_scores  |> 
+final_scores %>% 
   kbl(caption = "Table 2. Scores obtained from the final logistic regression model") %>%
   kable_styling(c("striped", "hover"), full_width = F)
 ```
 ```{r}
-test_cm |> 
+test_cm %>% 
   kbl(caption = "Table 3. Confusion matrix obtained from scoring the logistic regression model on the test set") %>%
   kable_styling(c("striped", "hover"), full_width = F)
 ```
