@@ -32,6 +32,28 @@ def main(input, output):
         .rename_axis(None)
     )
 
+    # Check if the required columns exists in the train file
+    assert set(train_df.columns) == {
+        "C_MNTH",
+        "C_WDAY",
+        "C_HOUR",
+        "C_VEHS",
+        "C_CONF",
+        "C_RCFG",
+        "C_WTHR",
+        "C_RSUR",
+        "C_RALN",
+        "C_TRAF",
+        "V_TYPE",
+        "V_YEAR",
+        "P_SEX",
+        "P_AGE",
+        "P_PSN",
+        "P_SAFE",
+        "P_USER",
+        "FATALITY"
+    }, "Required Columns not found in input .csv file"
+    
     # Separate train data into X_train and y_train
     X_train = train_df.drop(columns=["FATALITY"])
     y_train = train_df["FATALITY"]
