@@ -16,6 +16,7 @@ Options:
 from docopt import docopt
 import pandas as pd
 import altair as alt
+import os
 
 alt.data_transformers.enable("data_server")
 alt.renderers.enable("mimetype")
@@ -55,8 +56,6 @@ def main():
         .transform_filter(alt.FieldOneOfPredicate(field="FATALITY", oneOf=[0]))
     )
     
-    Chart_False.save(f"{save_path}Distribution_of_no_fatality.png")
-    
     # Creates distribution plots when Fatality = 1
     Chart_True = (
         alt.Chart(train_df)
@@ -72,8 +71,16 @@ def main():
         .resolve_scale(y="independent")
         .transform_filter(alt.FieldOneOfPredicate(field="FATALITY", oneOf=[1]))
     )
-    
-    Chart_True.save(f"{save_path}Distribution_of_fatality.png")
+
+    # Save distribution plots
+    # Test if we have the given filepath in the directory, if not, create one.
+    try:
+        Chart_False.save(f"{save_path}Distribution_of_no_fatality.png")
+        Chart_True.save(f"{save_path}Distribution_of_fatality.png")
+    except:
+        os.makedirs(os.path.dirname(save_path))
+        Chart_False.save(f"{save_path}Distribution_of_no_fatality.png")
+        Chart_True.save(f"{save_path}Distribution_of_fatality.png")
 
     
 if __name__ == "__main__":
