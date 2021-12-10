@@ -28,9 +28,36 @@ def main():
     train_path = opt["--train"]
     save_path = opt["--out_dir"]
 
+    # Check if input file is a .csv file
+    assert train_path.endswith(
+        ".csv"
+    ), "Input file is not a .csv file, please enter a .csv file as the <in_file>"
+    
     train_df = (
         pd.read_csv(train_path, low_memory=False).set_index("index").rename_axis(None)
     )
+
+    # Check if the required columns exists in the train file
+    assert set(train_df.columns) == {
+        "C_MNTH",
+        "C_WDAY",
+        "C_HOUR",
+        "C_VEHS",
+        "C_CONF",
+        "C_RCFG",
+        "C_WTHR",
+        "C_RSUR",
+        "C_RALN",
+        "C_TRAF",
+        "V_TYPE",
+        "V_YEAR",
+        "P_SEX",
+        "P_AGE",
+        "P_PSN",
+        "P_SAFE",
+        "P_USER",
+        "FATALITY"
+    }, "Required Columns not found in input .csv file"
     
     # Converts values of P_SEX column into numeric
     sex = {"M": 1, "F": 0, "missing": "missing"}
@@ -44,7 +71,10 @@ def main():
         alt.Chart(train_df)
         .mark_bar(opacity=0.7)
         .encode(
-            x=alt.X(alt.repeat("row"), type="quantitative", bin=alt.Bin(maxbins=40)),
+            x=alt.X(alt.repeat("row"),
+                    type="quantitative",
+                    bin=alt.Bin(maxbins=20),
+                    axis=alt.Axis(format='.0f')),
             y=alt.Y("count()", title="Number of collisions"),
             color=alt.Color("FATALITY", scale=alt.Scale(scheme="category20c"), legend=None))
         .properties(width=150, height=100)
@@ -62,7 +92,10 @@ def main():
         alt.Chart(train_df)
         .mark_bar(opacity=0.7)
         .encode(
-            x=alt.X(alt.repeat("row"), type="quantitative", bin=alt.Bin(maxbins=40)),
+            x=alt.X(alt.repeat("row"),
+                    type="quantitative",
+                    bin=alt.Bin(maxbins=20),
+                    axis=alt.Axis(format='.0f')),
             y=alt.Y("count()", title="Number of collisions"),
             color=alt.Color("FATALITY", scale=alt.Scale(scheme="category20b"), legend=None))
         .properties(width=150, height=100)
