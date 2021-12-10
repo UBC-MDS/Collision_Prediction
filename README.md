@@ -71,6 +71,7 @@ Rscript -e "rmarkdown::render('doc/collision_prediction_report.Rmd')"
 ```
 
 Makefile Dependencies Graph
+
 ![makefile_dependencies_graph](Makefile.png)
 
 ## Dependencies
