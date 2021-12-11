@@ -27,17 +27,21 @@ The final report can be found [here](https://github.com/UBC-MDS/Collision_Predic
 
 There are two primary ways to replicate this analysis:
 
-1. Using Docker
+**1. Using Docker**
 
 Install Docker, clone this GitHub repository, and run the following command from the command line/terminal within the root directory of this project:
 
-```docker run --platform linux/amd64 --rm -v /$(pwd):/home/jovyan/work test1 make -C /home/jovyan/work all```
+```
+docker run --platform linux/amd64 --rm -v /$(pwd):/home/jovyan/work test1 make -C /home/jovyan/work all
+```
 
 To reset the repo to a clean state without intermediate or results files, run the following command from the command line/terminal within the root directory of this project:
 
-```docker run --platform linux/amd64 --rm -v /$(pwd):/home/jovyan/work test1 make -C /home/jovyan/work clean```
+```
+docker run --platform linux/amd64 --rm -v /$(pwd):/home/jovyan/work test1 make -C /home/jovyan/work clean
+```
 
-2. Without using Docker
+**2. Without using Docker**
 
 Clone this GitHub repository and install the [dependencies](#Dependencies) listed below.
 
