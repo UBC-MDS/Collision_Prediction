@@ -1,2 +1,2 @@
 ,accuracy,f1,recall,precision,average_precision
-training_scores,0.77,0.091,0.758,0.048,0.094
+training_scores,0.769,0.091,0.758,0.048,0.094
