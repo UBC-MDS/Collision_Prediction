@@ -45,6 +45,10 @@ To reset the repo to a clean state, with no intermediate or results files, run t
 make clean
 ```
 
+Makefile Dependencies Graph
+
+![makefile_dependencies_graph](Makefile.png)
+
 Alternatively, the scripts can be specified and run individually as:
 
 ```
