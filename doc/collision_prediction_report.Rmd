@@ -1,6 +1,6 @@
 ---
 title: "Predicting fatalities resulting from motor vehicle collisions"
-author: "MDS-2021-22 Block 3 Group 21"
+author: "Abdul Moid Mohammed, Daniel King, Siqi Tao, Linh Giang Nguyen"
 date: "25/11/2021"
 output: 
   github_document:
