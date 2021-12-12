@@ -32,13 +32,13 @@ There are two primary ways to replicate this analysis:
 Install Docker, clone this GitHub repository, and run the following command from the command line/terminal within the root directory of this project:
 
 ```
-docker run --platform linux/amd64 --rm -v /$(pwd):/home/jovyan/work test1 make -C /home/jovyan/work all
+docker run --platform linux/amd64 --rm -v /$(pwd):/home/jovyan/work doristaosiqi/collision_prediction make -C /home/jovyan/work all
 ```
 
 To reset the repo to a clean state without intermediate or results files, run the following command from the command line/terminal within the root directory of this project:
 
 ```
-docker run --platform linux/amd64 --rm -v /$(pwd):/home/jovyan/work test1 make -C /home/jovyan/work clean
+docker run --platform linux/amd64 --rm -v /$(pwd):/home/jovyan/work doristaosiqi/collision_prediction make -C /home/jovyan/work clean
 ```
 
 **2. Without using Docker**
