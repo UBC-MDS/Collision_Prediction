@@ -9,7 +9,7 @@ logistic regression algorithm and data obtained from police-reported
 motor vehicle collisions on public roads in Canada to predict whether a motor vehicle
 collision will result in a fatality or not. The final model performed
 poorly on both the training set and the test set, returning a high
-recall of 0.698, but a very low precision of 0.048, resulting in a low
+recall of 0.699, but a very low precision of 0.048, resulting in a low
 f1-score of 0.09. The impact of the low precision can be seen in the
 results of the prediction of the test set, where the model incorrectly
 predicts fatalities around 20 times more than it correctly predicts
