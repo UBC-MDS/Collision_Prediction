@@ -18,8 +18,8 @@ logistic regression algorithm and data obtained from police-reported
 motor vehicle collisions on public roads in Canada to predict whether a
 collision would result in a fatality or not. The final model performed
 poorly on both the training set and the test set, returning a high
-recall of 0.699, but a very low precision of 0.048, resulting in a low
-f1-score of 0.09. The impact of the low precision can be seen in the
+recall of 0.701, but a very low precision of 0.048, resulting in a low
+f1-score of 0.091. The impact of the low precision can be seen in the
 results of the prediction of the test set, where the model incorrectly
 predicts fatalities around 20 times more than it correctly predicts
 fatalities.
@@ -131,13 +131,13 @@ Logistic Regression Optimized
 fit_time
 </td>
 <td style="text-align:left;">
-1.543 (+/- 0.035)
+0.187 (+/- 0.006)
 </td>
 <td style="text-align:left;">
-7.728 (+/- 0.206)
+0.583 (+/- 0.040)
 </td>
 <td style="text-align:left;">
-6.306 (+/- 0.182)
+0.553 (+/- 0.057)
 </td>
 </tr>
 <tr>
@@ -145,13 +145,13 @@ fit_time
 score_time
 </td>
 <td style="text-align:left;">
-4.266 (+/- 0.136)
+0.817 (+/- 0.059)
 </td>
 <td style="text-align:left;">
-5.212 (+/- 0.091)
+1.056 (+/- 0.022)
 </td>
 <td style="text-align:left;">
-5.370 (+/- 0.139)
+1.147 (+/- 0.055)
 </td>
 </tr>
 <tr>
@@ -279,7 +279,7 @@ average_precision
 training_scores
 </td>
 <td style="text-align:right;">
-0.769
+0.770
 </td>
 <td style="text-align:right;">
 0.091
@@ -302,10 +302,10 @@ test_scores
 0.768
 </td>
 <td style="text-align:right;">
-0.090
+0.091
 </td>
 <td style="text-align:right;">
-0.699
+0.701
 </td>
 <td style="text-align:right;">
 0.048
@@ -340,10 +340,10 @@ fatal
 non_fatal
 </td>
 <td style="text-align:right;">
-43855
+43852
 </td>
 <td style="text-align:right;">
-13158
+13161
 </td>
 </tr>
 <tr>
@@ -351,10 +351,10 @@ non_fatal
 fatal
 </td>
 <td style="text-align:right;">
-288
+286
 </td>
 <td style="text-align:right;">
-668
+670
 </td>
 </tr>
 </tbody>
