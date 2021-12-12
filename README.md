@@ -25,21 +25,39 @@ The final report can be found [here](https://github.com/UBC-MDS/Collision_Predic
 
 ## Usage
 
-To replicate the analysis, clone this GitHub repository, install the [dependencies](#Dependencies) listed below.
+There are two primary ways to replicate this analysis:
 
-For Windows users, run this command to be able to render .png files:
+**1. Using Docker**
+
+Install Docker, clone this GitHub repository, and run the following command from the command line/terminal within the root directory of this project:
+
+```
+docker run --platform linux/amd64 --rm -v /$(pwd):/home/jovyan/work test1 make -C /home/jovyan/work all
+```
+
+To reset the repo to a clean state without intermediate or results files, run the following command from the command line/terminal within the root directory of this project:
+
+```
+docker run --platform linux/amd64 --rm -v /$(pwd):/home/jovyan/work test1 make -C /home/jovyan/work clean
+```
+
+**2. Without using Docker**
+
+Clone this GitHub repository and install the [dependencies](#Dependencies) listed below.
+
+If .png rendering does not work, run this command prior to running the scripts:
 
 ```
 npm install -g vega vega-cli vega-lite canvas
 ```
 
-Run the following commands at the command line/terminal from the root directory of this project:
+Run the following command at the command line/terminal from the root directory of this project:
 
 ```
 make all
 ```
 
-To reset the repo to a clean state, with no intermediate or results files, run the following command at the command line/ terminal from the root directory of this project:
+To reset the repo to a clean state without intermediate or results files, run the following command from the command line/terminal within the root directory of this project:
 
 ```
 make clean
@@ -48,32 +66,6 @@ make clean
 Makefile Dependencies Graph
 
 ![makefile_dependencies_graph](Makefile.png)
-
-Alternatively, the scripts can be specified and run individually as:
-
-```
-# download data
-python src/download_data.py --url="https://raw.githubusercontent.com/UBC-MDS/National_Collision_DB_Group407/master/data/raw_data.csv" --filepath=data/raw/NCDB_2017.csv
-
-# clean and split data
-python src/clean_split_data.py --input=data/raw/NCDB_2017.csv --output=data/processed/
-
-# run eda report
-python src/eda.py --train=data/processed/train.csv --out_dir=results/
-
-# create and tune model
-python src/model.py --input=data/processed/train.csv --output=results/
-
-# select features
-python src/feature_selection.py --input=data/processed/train.csv --output=results/
-
-# test model
-python src/score.py --input=data/processed/ --output=results/
-
-# render final report
-Rscript -e "rmarkdown::render('doc/collision_prediction_report.Rmd')"
-```
-
 ## Dependencies
 
 * Python 3.10.0 and Python packages:
@@ -84,7 +76,7 @@ Rscript -e "rmarkdown::render('doc/collision_prediction_report.Rmd')"
   * pandoc==2.16.2
   * scikit-learn==1.0.1
   * docopt-ng==0.7.2
-* R 4.1.1 and R packages:
+* R 4.0.3 and R packages:
   * kableExtra==1.3.4
   * knitr==1.36
   * tidyverse==1.3.1
