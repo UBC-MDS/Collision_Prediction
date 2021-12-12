@@ -1,6 +1,6 @@
 Predicting fatalities resulting from motor vehicle collisions
 ================
-MDS-2021-22 Block 3 Group 21
+Abdul Moid Mohammed, Daniel King, Siqi Tao, Linh Giang Nguyen
 25/11/2021
 
 -   [Summary](#summary)
@@ -8,7 +8,7 @@ MDS-2021-22 Block 3 Group 21
 -   [Methods](#methods)
     -   [Data](#data)
     -   [Model](#model)
--   [Results & Discussion](#results--discussion)
+-   [Results & Discussion](#results-discussion)
 -   [References](#references)
 
 # Summary
@@ -88,7 +88,15 @@ distribution of all features between `No fatality` and `Fatality`. The
 associated data dictionary can be found
 [here](https://open.canada.ca/data/en/dataset/1eb9eba7-71d1-4b30-9fb1-30cbdab7e63a/resource/09b74afc-2745-4382-8a02-3e256c4b28fd).
 
-<img src="../results/Distribution_of_no_fatality.png" title="Figure 1. Distribution of features by fatality" alt="Figure 1. Distribution of features by fatality" style="display: block; margin: auto;" /><img src="../results/Distribution_of_fatality.png" title="Figure 1. Distribution of features by fatality" alt="Figure 1. Distribution of features by fatality" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+
+<img src="../results/Distribution_of_no_fatality.png" alt="Figure 1. Distribution of features by fatality"  /><img src="../results/Distribution_of_fatality.png" alt="Figure 1. Distribution of features by fatality"  />
+<p class="caption">
+Figure 1. Distribution of features by fatality
+</p>
+
+</div>
+
 Promising features in which we can see a clear difference in the shape
 of the distributions between collisions that are fatal and non-fatal
 include V_YEAR, C_MNTH, C_RCFG, and P_AGE. However, we decided to use
@@ -123,13 +131,13 @@ Logistic Regression Optimized
 fit_time
 </td>
 <td style="text-align:left;">
-0.211 (+/- 0.012)
+1.543 (+/- 0.035)
 </td>
 <td style="text-align:left;">
-0.601 (+/- 0.078)
+7.728 (+/- 0.206)
 </td>
 <td style="text-align:left;">
-0.561 (+/- 0.040)
+6.306 (+/- 0.182)
 </td>
 </tr>
 <tr>
@@ -137,13 +145,13 @@ fit_time
 score_time
 </td>
 <td style="text-align:left;">
-0.553 (+/- 0.028)
+4.266 (+/- 0.136)
 </td>
 <td style="text-align:left;">
-0.754 (+/- 0.070)
+5.212 (+/- 0.091)
 </td>
 <td style="text-align:left;">
-0.847 (+/- 0.048)
+5.370 (+/- 0.139)
 </td>
 </tr>
 <tr>

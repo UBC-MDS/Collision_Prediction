@@ -16,6 +16,8 @@ RUN conda install -c conda-forge --quiet --yes \
 
 RUN pip install docopt-ng==0.7.2
 
+RUN npm install -g vega vega-cli vega-lite canvas
+
 USER root    
     
 # R pre-requisites
